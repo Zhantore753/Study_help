@@ -3604,11 +3604,14 @@ module.exports = g;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_cards__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/cards */ "./src/js/modules/cards.js");
+/* harmony import */ var _modules_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/dropdown */ "./src/js/modules/dropdown.js");
+
 
 window.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_0__["default"])('.wrapper');
+  Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
 });
 
 /***/ }),
@@ -3657,6 +3660,29 @@ var loadCards = function loadCards(wrapper) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (loadCards);
+
+/***/ }),
+
+/***/ "./src/js/modules/dropdown.js":
+/*!************************************!*\
+  !*** ./src/js/modules/dropdown.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var dropDown = function dropDown(trigger, wrapper) {
+  var btn = document.querySelector(trigger),
+      list = document.querySelector(wrapper);
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    btn.classList.toggle('show');
+    list.classList.toggle('show');
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (dropDown);
 
 /***/ }),
 
