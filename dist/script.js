@@ -3605,6 +3605,8 @@ module.exports = g;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_cards__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/cards */ "./src/js/modules/cards.js");
 /* harmony import */ var _modules_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/dropdown */ "./src/js/modules/dropdown.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+
 
 
 window.addEventListener('DOMContentLoaded', function () {
@@ -3612,6 +3614,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_0__["default"])('.wrapper');
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.auth-btn', '.auth-modal');
 });
 
 /***/ }),
@@ -3683,6 +3686,57 @@ var dropDown = function dropDown(trigger, wrapper) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (dropDown);
+
+/***/ }),
+
+/***/ "./src/js/modules/modal.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/modal.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var modal = function modal(trigger, _modal) {
+  var btn = document.querySelector(trigger),
+      thisModal = document.querySelector(_modal);
+  btn.addEventListener('click', function (e) {
+    // e.preventDefault();
+    thisModal.classList.add('show');
+    thisModal.style.display = 'block';
+  });
+  thisModal.querySelectorAll('.close-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      thisModal.classList.remove('show');
+      thisModal.style.display = 'none';
+    });
+  });
+  var auth = thisModal.querySelector('[data-auth]'),
+      reg = thisModal.querySelector('[data-reg]');
+  auth.addEventListener('click', function (e) {
+    thisModal.querySelector('.auth').style.display = "block";
+    thisModal.querySelector('.reg').style.display = "none";
+    auth.classList.add('btn-secondary');
+    auth.classList.remove('btn-outline-secondary');
+    reg.classList.remove('btn-secondary');
+    reg.classList.add('btn-outline-secondary');
+  });
+  reg.addEventListener('click', function (e) {
+    thisModal.querySelector('.reg').style.display = "block";
+    thisModal.querySelector('.auth').style.display = "none";
+    reg.classList.add('btn-secondary');
+    reg.classList.remove('btn-outline-secondary');
+    auth.classList.remove('btn-secondary');
+    auth.classList.add('btn-outline-secondary');
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (modal);
 
 /***/ }),
 

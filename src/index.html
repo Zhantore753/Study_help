@@ -35,11 +35,9 @@
           </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0">
-          <button class="btn btn-outline-success my-2 my-sm-0">
-            Вход/Регистрация
-          </button>
-        </form>
+        <button class="btn btn-outline-success my-2 my-sm-0 auth-btn">
+          Вход/Регистрация
+        </button>
       </div>
     </div>
   </nav>
@@ -50,6 +48,68 @@
       </div>
     </div>
   </section>
+  <div class="container">
+    <div class="modal fade auth-modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary" data-auth>
+                <h4 class="modal-title" id="exampleModalLabel">Вход</h4>
+              </button>
+              <button type="button" class="btn btn-outline-secondary" data-reg>
+                <h4 class="modal-title" id="exampleModalLabel1">Регистрация</h4>
+              </button>
+            </div>
+            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form class="auth">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Логин</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Пароль</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Запомнить</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+
+
+
+            <form class="reg" style="display: none;">
+              <div class="form-group">
+                <label for="exampleInputName1">Имя</label>
+                <input type="name" class="form-control" id="exampleInputName2">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputLogin1">Логин</label>
+                <input type="login" class="form-control" id="exampleInputLogin2" aria-describedby="emailHelp">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Пароль</label>
+                <input type="password" class="form-control" id="exampleInputPassword2">
+              </div>
+              <button type="submit" class="btn btn-primary">Регистрация</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 <script src="script.js"></script>

@@ -19,5 +19,18 @@
             "title": "Уравнения",
             "link": "#"
         }
+    ],
+    "auth": [{
+            "id": 1,
+            "name": "Zhantore",
+            "login": "Zhanik",
+            "password": "password123"
+        },
+        {
+            "id": 2,
+            "name": "Injumarjan",
+            "login": "Inju",
+            "password": "password456"
+        }
     ]
 }
