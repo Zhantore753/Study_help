@@ -17,7 +17,7 @@ const modal = (trigger, modal) => {
         reg = thisModal.querySelector('[data-reg]');
 
     auth.addEventListener('click', (e) => {
-        thisModal.querySelector('.auth').style.display = "block";
+        thisModal.querySelector('.auth-form').style.display = "block";
         thisModal.querySelector('.reg').style.display = "none";
         auth.classList.add('btn-secondary');
         auth.classList.remove('btn-outline-secondary');
@@ -27,7 +27,7 @@ const modal = (trigger, modal) => {
 
     reg.addEventListener('click', (e) => {
         thisModal.querySelector('.reg').style.display = "block";
-        thisModal.querySelector('.auth').style.display = "none";
+        thisModal.querySelector('.auth-form').style.display = "none";
         reg.classList.add('btn-secondary');
         reg.classList.remove('btn-outline-secondary');
         auth.classList.remove('btn-secondary');
