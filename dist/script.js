@@ -4202,6 +4202,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/dropdown */ "./src/js/modules/dropdown.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
 /* harmony import */ var _modules_reg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/reg */ "./src/js/modules/reg.js");
+/* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/auth */ "./src/js/modules/auth.js");
+
 
 
 
@@ -4213,7 +4215,75 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.auth-btn', '.auth-modal');
   Object(_modules_reg__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/auth.js":
+/*!********************************!*\
+  !*** ./src/js/modules/auth.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
+
+
+
+
+
+var auth = function auth() {
+  var forms = document.querySelectorAll('.auth-form');
+  forms.forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var login = form.querySelector('[name="login"]'),
+          password = form.querySelector('[name="password"]'),
+          checkbox = form.querySelector('[name="checkbox"]');
+      var loginCheck = false,
+          passwordCheck = false;
+      Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/auth').then(function (res) {
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].login == login.value) {
+            console.log(true);
+            loginCheck = true;
+          }
+
+          if (res[i].password == password.value) {
+            console.log(true);
+            passwordCheck = true;
+          }
+        }
+      }).catch(function (e) {
+        console.log(e);
+      }).finally(function () {
+        var checked = document.createElement('div');
+
+        if (loginCheck && passwordCheck) {
+          checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
+          form.appendChild(checked);
+        } else {
+          checked.innerHTML = "<div class=\"text-center\">\n                            \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043B\u043E\u0433\u0438\u043D \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C!\n                        </div>";
+          form.appendChild(checked);
+        }
+      });
+    });
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (auth);
 
 /***/ }),
 
@@ -4385,7 +4455,7 @@ var reg = function reg() {
       var json = JSON.stringify(Object.fromEntries(formData.entries()));
       console.log(formData);
       console.log(json);
-      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/auth', json).then(function (res) {
+      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["default"])('http://localhost:3000/auth', json).then(function (res) {
         console.log(res);
         form.reset();
       }).catch(function () {

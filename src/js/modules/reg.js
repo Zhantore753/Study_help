@@ -1,7 +1,4 @@
-import {
-    getResource,
-    postData
-} from '../services/requests';
+import postData from '../services/requests';
 
 const reg = () => {
     const forms = document.querySelectorAll('.reg-form');
