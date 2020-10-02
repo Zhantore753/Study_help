@@ -4343,7 +4343,35 @@ var loadCards = function loadCards(wrapper) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_string_link__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.string.link */ "./node_modules/core-js/modules/es.string.link.js");
+/* harmony import */ var core_js_modules_es_string_link__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_link__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
+
+
+
 var dropDown = function dropDown(trigger, wrapper) {
+  Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/modes').then(function (res) {
+    return loadModes(res);
+  }).catch(function (e) {
+    return console.log(e);
+  });
+
+  function loadModes(response) {
+    response.forEach(function (_ref) {
+      var src = _ref.src,
+          title = _ref.title,
+          link = _ref.link;
+      var mode = document.createElement('a');
+      mode.setAttribute('href', link);
+      mode.classList.add('dropdown-item');
+      mode.innerHTML = "".concat(title);
+      document.querySelector(wrapper).appendChild(mode);
+    });
+  }
+
   var btn = document.querySelector(trigger),
       list = document.querySelector(wrapper);
   btn.addEventListener('click', function (e) {

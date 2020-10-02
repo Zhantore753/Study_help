@@ -38,7 +38,7 @@ const auth = () => {
                     } else {
                         checked.innerHTML = `<div class="text-center">
                             Неправильный логин или пароль!
-                        </div>`
+                        </div>`;
                         form.appendChild(checked);
                     }
                 });
