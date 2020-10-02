@@ -4251,18 +4251,20 @@ var auth = function auth() {
       e.preventDefault();
       var login = form.querySelector('[name="login"]'),
           password = form.querySelector('[name="password"]'),
-          checkbox = form.querySelector('[name="checkbox"]');
+          checkbox = form.querySelector('[name="checkbox"]'),
+          nick = document.querySelector('.nick'),
+          authBtn = document.querySelector('.auth-btn');
       var loginCheck = false,
-          passwordCheck = false;
+          passwordCheck = false,
+          trueLogin = '';
       Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/auth').then(function (res) {
         for (var i = 0; i < res.length; i++) {
           if (res[i].login == login.value) {
-            console.log(true);
+            trueLogin = res[i].login;
             loginCheck = true;
           }
 
           if (res[i].password == password.value) {
-            console.log(true);
             passwordCheck = true;
           }
         }
@@ -4272,6 +4274,9 @@ var auth = function auth() {
         var checked = document.createElement('div');
 
         if (loginCheck && passwordCheck) {
+          nick.textContent = trueLogin;
+          authBtn.style.display = 'none';
+          nick.style.display = '';
           checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
           form.appendChild(checked);
         } else {
@@ -4478,18 +4483,13 @@ var reg = function reg() {
   function submitData(form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      console.log(form);
       var formData = new FormData(form);
       var json = JSON.stringify(Object.fromEntries(formData.entries()));
-      console.log(formData);
-      console.log(json);
-      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["default"])('http://localhost:3000/auth', json).then(function (res) {
-        console.log(res);
+      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/auth', json).then(function (res) {
         form.reset();
       }).catch(function () {
         console.log("error");
       }).finally(function () {
-        console.log("end");
         form.reset();
       });
     });
