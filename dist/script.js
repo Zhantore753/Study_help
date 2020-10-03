@@ -4245,15 +4245,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var auth = function auth() {
+  var date = new Date(),
+      year = date.getFullYear(),
+      month = date.getMonth(),
+      day = date.getDate(),
+      nick = document.querySelector('.nick'),
+      authBtn = document.querySelector('.auth-btn');
+
+  if (localStorage.getItem('deadline-year') && localStorage.getItem('deadline-month') && localStorage.getItem('deadline-day')) {
+    var localDateYear = localStorage.getItem('deadline-year'),
+        localDateMonth = localStorage.getItem('deadline-month'),
+        localDateDay = localStorage.getItem('deadline-day');
+
+    if (+localDateYear >= +year && +localDateMonth >= +month && +localDateDay >= +day) {
+      var localLogin = localStorage.getItem('login');
+      nick.textContent = localLogin;
+      authBtn.style.display = 'none';
+      nick.style.display = '';
+    } else {
+      localStorage.removeItem('deadline');
+      localStorage.removeItem('login');
+    }
+  }
+
   var forms = document.querySelectorAll('.auth-form');
   forms.forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var login = form.querySelector('[name="login"]'),
           password = form.querySelector('[name="password"]'),
-          checkbox = form.querySelector('[name="checkbox"]'),
-          nick = document.querySelector('.nick'),
-          authBtn = document.querySelector('.auth-btn');
+          checkbox = form.querySelector('[name="checkbox"]');
       var loginCheck = false,
           passwordCheck = false,
           trueLogin = '';
@@ -4274,6 +4295,19 @@ var auth = function auth() {
         var checked = document.createElement('div');
 
         if (loginCheck && passwordCheck) {
+          if (checkbox.checked == true) {
+            console.log(date);
+            var dead = {
+              year: year,
+              month: month,
+              day: day + 1
+            };
+            localStorage.setItem('deadline-year', dead.year);
+            localStorage.setItem('deadline-month', dead.month);
+            localStorage.setItem('deadline-day', dead.day);
+            localStorage.setItem('login', trueLogin);
+          }
+
           nick.textContent = trueLogin;
           authBtn.style.display = 'none';
           nick.style.display = '';

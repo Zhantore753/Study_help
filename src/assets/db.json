@@ -51,6 +51,12 @@
       "login": "Zhantore",
       "password": "123456789",
       "id": 5
+    },
+    {
+      "name": "Рахымжан",
+      "login": "Rahat",
+      "password": "rahat",
+      "id": 6
     }
   ]
 }
