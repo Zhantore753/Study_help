@@ -9,11 +9,11 @@ const auth = () => {
         day = date.getDate(),
         nick = document.querySelector('.nick-inner'),
         nickWrap = document.querySelector('.nick'),
-        authBtn = document.querySelector('.auth-btn');
-    if (localStorage.getItem('deadline-year') && localStorage.getItem('deadline-month') && localStorage.getItem('deadline-day')) {
-        const localDateYear = localStorage.getItem('deadline-year'),
-            localDateMonth = localStorage.getItem('deadline-month'),
-            localDateDay = localStorage.getItem('deadline-day');
+        authBtn = document.querySelector('.auth-btn'),
+        localDateYear = localStorage.getItem('deadline-year'),
+        localDateMonth = localStorage.getItem('deadline-month'),
+        localDateDay = localStorage.getItem('deadline-day');
+    if (localDateYear && localDateMonth && localDateDay) {
 
         if (+localDateYear >= +year && +localDateMonth >= +month && +localDateDay >= +day) {
             const localLogin = localStorage.getItem('login');
@@ -21,74 +21,95 @@ const auth = () => {
             authBtn.style.display = 'none';
             nickWrap.style.display = '';
         } else {
-            localStorage.removeItem('deadline');
+            localStorage.removeItem('deadline-year');
+            localStorage.removeItem('deadline-month');
+            localStorage.removeItem('deadline-day');
             localStorage.removeItem('login');
         }
     }
-    const forms = document.querySelectorAll('.auth-form');
-    // exitBtn = document.querySelector('[data-exit]'),
-    // exitModal = document.querySelector('.exit-modal');
-    forms.forEach(form => {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const login = form.querySelector('[name="login"]'),
-                password = form.querySelector('[name="password"]'),
-                checkbox = form.querySelector('[name="checkbox"]');
+    const form = document.querySelector('.auth-form'),
+        exitBtn = document.querySelector('[data-exit]'),
+        exitModal = document.querySelector('.exit-modal'),
+        authModal = document.querySelector('.auth-modal');
+    // forms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const login = form.querySelector('[name="login"]'),
+            password = form.querySelector('[name="password"]'),
+            checkbox = form.querySelector('[name="checkbox"]');
 
-            let loginCheck = false,
-                passwordCheck = false,
-                trueLogin = '';
+        let loginCheck = false,
+            passwordCheck = false,
+            trueLogin = '';
 
-            getResource('http://localhost:3000/auth')
-                .then(res => {
-                    for (let i = 0; i < res.length; i++) {
-                        if (res[i].login == login.value) {
-                            trueLogin = res[i].login;
-                            loginCheck = true;
-                        }
-                        if (res[i].password == password.value) {
-                            passwordCheck = true;
-                        }
+        getResource('http://localhost:3000/auth')
+            .then(res => {
+                for (let i = 0; i < res.length; i++) {
+                    if (res[i].login == login.value) {
+                        trueLogin = res[i].login;
+                        loginCheck = true;
                     }
-                }).catch(e => {
-                    console.log(e);
-                }).finally(() => {
-                    const checked = document.createElement('div');
-                    if (loginCheck && passwordCheck) {
-                        if (checkbox.checked == true) {
-                            console.log(date);
-                            const dead = {
-                                year: year,
-                                month: month,
-                                day: day + 1
-                            }
-                            localStorage.setItem('deadline-year', dead.year);
-                            localStorage.setItem('deadline-month', dead.month);
-                            localStorage.setItem('deadline-day', dead.day);
-                            localStorage.setItem('login', trueLogin);
+                    if (res[i].password == password.value) {
+                        passwordCheck = true;
+                    }
+                }
+            }).catch(e => {
+                console.log(e);
+            }).finally(() => {
+                const checked = document.createElement('div');
+                if (loginCheck && passwordCheck) {
+                    if (checkbox.checked == true) {
+                        const dead = {
+                            year: year,
+                            month: month,
+                            day: day + 1
                         }
-                        nick.textContent = trueLogin;
-                        authBtn.style.display = 'none';
-                        nickWrap.style.display = '';
+                        localStorage.setItem('deadline-year', dead.year);
+                        localStorage.setItem('deadline-month', dead.month);
+                        localStorage.setItem('deadline-day', dead.day);
+                        localStorage.setItem('login', trueLogin);
+                    }
+                    nick.textContent = trueLogin;
+                    authBtn.style.display = 'none';
+                    nickWrap.style.display = '';
 
-                        checked.innerHTML = `<div class="text-center">
+                    checked.innerHTML = `<div class="text-center">
                             Вы зашли!
-                        </div>`
-                        form.appendChild(checked);
-                    } else {
-                        checked.innerHTML = `<div class="text-center">
+                        </div>`;
+
+                    form.appendChild(checked);
+
+                    setTimeout(() => {
+                        document.querySelector('[name="login"]').value = '';
+                        document.querySelector('[name="password"]').value = '';
+                        document.querySelector('[name="checkbox"]').value = '';
+                        checked.remove();
+                    }, 3000);
+
+                    setTimeout(() => {
+                        authModal.classList.remove('show');
+                        authModal.style.display = 'none';
+                    }, 7000);
+                } else {
+                    checked.innerHTML = `<div class="text-center">
                             Неправильный логин или пароль!
                         </div>`;
-                        form.appendChild(checked);
-                    }
-                });
+                    form.appendChild(checked);
+                }
+            });
 
-        });
     });
-
-    // exitBtn.addEventListener('click', () => {
-    //     exitModal.classList.add('show');
-    //     exitModal.style.display = 'block';
     // });
+    exitBtn.addEventListener('click', () => {
+        nick.textContent = '';
+        authBtn.style.display = '';
+        nickWrap.style.display = 'none';
+        localStorage.removeItem('deadline-year');
+        localStorage.removeItem('deadline-month');
+        localStorage.removeItem('deadline-day');
+        localStorage.removeItem('login');
+        exitModal.classList.remove('show');
+        exitModal.style.display = 'none';
+    });
 };
 export default auth;

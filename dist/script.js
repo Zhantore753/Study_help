@@ -4215,7 +4215,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.btn-drop', '.dropList1');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.auth-btn', '.auth-modal');
-  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-exit]', '.exit-modal');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.exit', '.exit-modal');
   Object(_modules_reg__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"])();
 });
@@ -4237,10 +4237,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
 /* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
-
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
 
 
 
@@ -4253,81 +4250,100 @@ var auth = function auth() {
       day = date.getDate(),
       nick = document.querySelector('.nick-inner'),
       nickWrap = document.querySelector('.nick'),
-      authBtn = document.querySelector('.auth-btn');
+      authBtn = document.querySelector('.auth-btn'),
+      localDateYear = localStorage.getItem('deadline-year'),
+      localDateMonth = localStorage.getItem('deadline-month'),
+      localDateDay = localStorage.getItem('deadline-day');
 
-  if (localStorage.getItem('deadline-year') && localStorage.getItem('deadline-month') && localStorage.getItem('deadline-day')) {
-    var localDateYear = localStorage.getItem('deadline-year'),
-        localDateMonth = localStorage.getItem('deadline-month'),
-        localDateDay = localStorage.getItem('deadline-day');
-
+  if (localDateYear && localDateMonth && localDateDay) {
     if (+localDateYear >= +year && +localDateMonth >= +month && +localDateDay >= +day) {
       var localLogin = localStorage.getItem('login');
       nick.textContent = localLogin;
       authBtn.style.display = 'none';
       nickWrap.style.display = '';
     } else {
-      localStorage.removeItem('deadline');
+      localStorage.removeItem('deadline-year');
+      localStorage.removeItem('deadline-month');
+      localStorage.removeItem('deadline-day');
       localStorage.removeItem('login');
     }
   }
 
-  var forms = document.querySelectorAll('.auth-form'); // exitBtn = document.querySelector('[data-exit]'),
-  // exitModal = document.querySelector('.exit-modal');
+  var form = document.querySelector('.auth-form'),
+      exitBtn = document.querySelector('[data-exit]'),
+      exitModal = document.querySelector('.exit-modal'),
+      authModal = document.querySelector('.auth-modal'); // forms.forEach(form => {
 
-  forms.forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var login = form.querySelector('[name="login"]'),
-          password = form.querySelector('[name="password"]'),
-          checkbox = form.querySelector('[name="checkbox"]');
-      var loginCheck = false,
-          passwordCheck = false,
-          trueLogin = '';
-      Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/auth').then(function (res) {
-        for (var i = 0; i < res.length; i++) {
-          if (res[i].login == login.value) {
-            trueLogin = res[i].login;
-            loginCheck = true;
-          }
-
-          if (res[i].password == password.value) {
-            passwordCheck = true;
-          }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var login = form.querySelector('[name="login"]'),
+        password = form.querySelector('[name="password"]'),
+        checkbox = form.querySelector('[name="checkbox"]');
+    var loginCheck = false,
+        passwordCheck = false,
+        trueLogin = '';
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/auth').then(function (res) {
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].login == login.value) {
+          trueLogin = res[i].login;
+          loginCheck = true;
         }
-      }).catch(function (e) {
-        console.log(e);
-      }).finally(function () {
-        var checked = document.createElement('div');
 
-        if (loginCheck && passwordCheck) {
-          if (checkbox.checked == true) {
-            console.log(date);
-            var dead = {
-              year: year,
-              month: month,
-              day: day + 1
-            };
-            localStorage.setItem('deadline-year', dead.year);
-            localStorage.setItem('deadline-month', dead.month);
-            localStorage.setItem('deadline-day', dead.day);
-            localStorage.setItem('login', trueLogin);
-          }
-
-          nick.textContent = trueLogin;
-          authBtn.style.display = 'none';
-          nickWrap.style.display = '';
-          checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
-          form.appendChild(checked);
-        } else {
-          checked.innerHTML = "<div class=\"text-center\">\n                            \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043B\u043E\u0433\u0438\u043D \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C!\n                        </div>";
-          form.appendChild(checked);
+        if (res[i].password == password.value) {
+          passwordCheck = true;
         }
-      });
+      }
+    }).catch(function (e) {
+      console.log(e);
+    }).finally(function () {
+      var checked = document.createElement('div');
+
+      if (loginCheck && passwordCheck) {
+        if (checkbox.checked == true) {
+          var dead = {
+            year: year,
+            month: month,
+            day: day + 1
+          };
+          localStorage.setItem('deadline-year', dead.year);
+          localStorage.setItem('deadline-month', dead.month);
+          localStorage.setItem('deadline-day', dead.day);
+          localStorage.setItem('login', trueLogin);
+        }
+
+        nick.textContent = trueLogin;
+        authBtn.style.display = 'none';
+        nickWrap.style.display = '';
+        checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
+        form.appendChild(checked);
+        setTimeout(function () {
+          document.querySelector('[name="login"]').value = '';
+          document.querySelector('[name="password"]').value = '';
+          document.querySelector('[name="checkbox"]').value = '';
+          checked.remove();
+        }, 3000);
+        setTimeout(function () {
+          authModal.classList.remove('show');
+          authModal.style.display = 'none';
+        }, 7000);
+      } else {
+        checked.innerHTML = "<div class=\"text-center\">\n                            \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043B\u043E\u0433\u0438\u043D \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C!\n                        </div>";
+        form.appendChild(checked);
+      }
     });
-  }); // exitBtn.addEventListener('click', () => {
-  //     exitModal.classList.add('show');
-  //     exitModal.style.display = 'block';
-  // });
+  }); // });
+
+  exitBtn.addEventListener('click', function () {
+    nick.textContent = '';
+    authBtn.style.display = '';
+    nickWrap.style.display = 'none';
+    localStorage.removeItem('deadline-year');
+    localStorage.removeItem('deadline-month');
+    localStorage.removeItem('deadline-day');
+    localStorage.removeItem('login');
+    exitModal.classList.remove('show');
+    exitModal.style.display = 'none';
+  });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (auth);
