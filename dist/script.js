@@ -4213,6 +4213,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_0__["default"])('.wrapper');
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
+  Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.btn-drop', '.dropList1');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.auth-btn', '.auth-modal');
   Object(_modules_reg__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"])();
@@ -4249,7 +4250,8 @@ var auth = function auth() {
       year = date.getFullYear(),
       month = date.getMonth(),
       day = date.getDate(),
-      nick = document.querySelector('.nick'),
+      nick = document.querySelector('.nick-inner'),
+      nickWrap = document.querySelector('.nick'),
       authBtn = document.querySelector('.auth-btn');
 
   if (localStorage.getItem('deadline-year') && localStorage.getItem('deadline-month') && localStorage.getItem('deadline-day')) {
@@ -4261,7 +4263,7 @@ var auth = function auth() {
       var localLogin = localStorage.getItem('login');
       nick.textContent = localLogin;
       authBtn.style.display = 'none';
-      nick.style.display = '';
+      nickWrap.style.display = '';
     } else {
       localStorage.removeItem('deadline');
       localStorage.removeItem('login');
@@ -4310,7 +4312,7 @@ var auth = function auth() {
 
           nick.textContent = trueLogin;
           authBtn.style.display = 'none';
-          nick.style.display = '';
+          nickWrap.style.display = '';
           checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
           form.appendChild(checked);
         } else {
@@ -4392,23 +4394,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var dropDown = function dropDown(trigger, wrapper) {
-  Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/modes').then(function (res) {
-    return loadModes(res);
-  }).catch(function (e) {
-    return console.log(e);
-  });
-
-  function loadModes(response) {
-    response.forEach(function (_ref) {
-      var src = _ref.src,
-          title = _ref.title,
-          link = _ref.link;
-      var mode = document.createElement('a');
-      mode.setAttribute('href', link);
-      mode.classList.add('dropdown-item');
-      mode.innerHTML = "".concat(title);
-      document.querySelector(wrapper).appendChild(mode);
+  if (wrapper == '.dropList') {
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/modes').then(function (res) {
+      return loadModes(res);
+    }).catch(function (e) {
+      return console.log(e);
     });
+
+    function loadModes(response) {
+      response.forEach(function (_ref) {
+        var src = _ref.src,
+            title = _ref.title,
+            link = _ref.link;
+        var mode = document.createElement('a');
+        mode.setAttribute('href', link);
+        mode.classList.add('dropdown-item');
+        mode.innerHTML = "".concat(title);
+        document.querySelector(wrapper).appendChild(mode);
+      });
+    }
   }
 
   var btn = document.querySelector(trigger),

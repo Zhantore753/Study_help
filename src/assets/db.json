@@ -1,6 +1,5 @@
 {
-  "modes": [
-    {
+  "modes": [{
       "src": "assets/img/1.jpg",
       "title": "Сложение/Вычетание",
       "link": "#"
@@ -21,8 +20,7 @@
       "link": "#"
     }
   ],
-  "auth": [
-    {
+  "auth": [{
       "name": "Zhantore",
       "login": "Zhanik",
       "password": "password123",

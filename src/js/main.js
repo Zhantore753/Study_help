@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     loadCards('.wrapper');
     dropDown('.dorpDownTrigger', '.dropList');
+    dropDown('.btn-drop', '.dropList1');
     modal('.auth-btn', '.auth-modal');
     reg();
     auth();

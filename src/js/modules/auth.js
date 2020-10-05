@@ -7,7 +7,8 @@ const auth = () => {
         year = date.getFullYear(),
         month = date.getMonth(),
         day = date.getDate(),
-        nick = document.querySelector('.nick'),
+        nick = document.querySelector('.nick-inner'),
+        nickWrap = document.querySelector('.nick'),
         authBtn = document.querySelector('.auth-btn');
     if (localStorage.getItem('deadline-year') && localStorage.getItem('deadline-month') && localStorage.getItem('deadline-day')) {
         const localDateYear = localStorage.getItem('deadline-year'),
@@ -18,7 +19,7 @@ const auth = () => {
             const localLogin = localStorage.getItem('login');
             nick.textContent = localLogin;
             authBtn.style.display = 'none';
-            nick.style.display = '';
+            nickWrap.style.display = '';
         } else {
             localStorage.removeItem('deadline');
             localStorage.removeItem('login');
@@ -66,7 +67,7 @@ const auth = () => {
                         }
                         nick.textContent = trueLogin;
                         authBtn.style.display = 'none';
-                        nick.style.display = '';
+                        nickWrap.style.display = '';
 
                         checked.innerHTML = `<div class="text-center">
                             Вы зашли!
