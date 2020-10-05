@@ -4215,6 +4215,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.btn-drop', '.dropList1');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.auth-btn', '.auth-modal');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-exit]', '.exit-modal');
   Object(_modules_reg__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"])();
 });
@@ -4270,7 +4271,9 @@ var auth = function auth() {
     }
   }
 
-  var forms = document.querySelectorAll('.auth-form');
+  var forms = document.querySelectorAll('.auth-form'); // exitBtn = document.querySelector('[data-exit]'),
+  // exitModal = document.querySelector('.exit-modal');
+
   forms.forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -4321,7 +4324,10 @@ var auth = function auth() {
         }
       });
     });
-  });
+  }); // exitBtn.addEventListener('click', () => {
+  //     exitModal.classList.add('show');
+  //     exitModal.style.display = 'block';
+  // });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (auth);
@@ -4455,24 +4461,27 @@ var modal = function modal(trigger, _modal) {
       thisModal.style.display = 'none';
     });
   });
-  var auth = thisModal.querySelector('[data-auth]'),
-      reg = thisModal.querySelector('[data-reg]');
-  auth.addEventListener('click', function (e) {
-    thisModal.querySelector('.auth-form').style.display = "block";
-    thisModal.querySelector('.reg').style.display = "none";
-    auth.classList.add('btn-secondary');
-    auth.classList.remove('btn-outline-secondary');
-    reg.classList.remove('btn-secondary');
-    reg.classList.add('btn-outline-secondary');
-  });
-  reg.addEventListener('click', function (e) {
-    thisModal.querySelector('.reg').style.display = "block";
-    thisModal.querySelector('.auth-form').style.display = "none";
-    reg.classList.add('btn-secondary');
-    reg.classList.remove('btn-outline-secondary');
-    auth.classList.remove('btn-secondary');
-    auth.classList.add('btn-outline-secondary');
-  });
+
+  try {
+    var auth = thisModal.querySelector('[data-auth]'),
+        reg = thisModal.querySelector('[data-reg]');
+    auth.addEventListener('click', function (e) {
+      thisModal.querySelector('.auth-form').style.display = "block";
+      thisModal.querySelector('.reg').style.display = "none";
+      auth.classList.add('btn-secondary');
+      auth.classList.remove('btn-outline-secondary');
+      reg.classList.remove('btn-secondary');
+      reg.classList.add('btn-outline-secondary');
+    });
+    reg.addEventListener('click', function (e) {
+      thisModal.querySelector('.reg').style.display = "block";
+      thisModal.querySelector('.auth-form').style.display = "none";
+      reg.classList.add('btn-secondary');
+      reg.classList.remove('btn-outline-secondary');
+      auth.classList.remove('btn-secondary');
+      auth.classList.add('btn-outline-secondary');
+    });
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modal);

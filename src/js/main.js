@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
     dropDown('.dorpDownTrigger', '.dropList');
     dropDown('.btn-drop', '.dropList1');
     modal('.auth-btn', '.auth-modal');
+    modal('[data-exit]', '.exit-modal');
     reg();
     auth();
 });

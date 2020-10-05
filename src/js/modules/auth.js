@@ -26,6 +26,8 @@ const auth = () => {
         }
     }
     const forms = document.querySelectorAll('.auth-form');
+    // exitBtn = document.querySelector('[data-exit]'),
+    // exitModal = document.querySelector('.exit-modal');
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -83,5 +85,10 @@ const auth = () => {
 
         });
     });
+
+    // exitBtn.addEventListener('click', () => {
+    //     exitModal.classList.add('show');
+    //     exitModal.style.display = 'block';
+    // });
 };
 export default auth;

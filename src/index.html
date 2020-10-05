@@ -36,7 +36,7 @@
             <a href="#" class="dropdown-item">Настройки</a>
             <a href="#" class="dropdown-item">Статистика</a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">Выйти</a>
+            <a href="#" class="dropdown-item" data-exit>Выйти</a>
           </div>
         </li>
         <button class="btn btn-outline-success my-2 my-sm-0 auth-btn">
@@ -116,7 +116,26 @@
         </div>
       </div>
     </div>
+
+    <div class="modal exit-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Вы уверенны что хотите выйти?</h5>
+            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary close-btn">Закрыть</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Выйти из аккаунта</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+
 </body>
 
 <script src="script.js"></script>
