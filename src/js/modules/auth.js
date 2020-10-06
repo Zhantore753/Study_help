@@ -25,6 +25,9 @@ const auth = () => {
             localStorage.removeItem('deadline-month');
             localStorage.removeItem('deadline-day');
             localStorage.removeItem('login');
+            localStorage.removeItem('name');
+            localStorage.removeItem('pass');
+            localStorage.removeItem('id');
         }
     }
     const form = document.querySelector('.auth-form'),
@@ -40,7 +43,10 @@ const auth = () => {
 
         let loginCheck = false,
             passwordCheck = false,
-            trueLogin = '';
+            trueLogin = '',
+            trueName = '',
+            truePass = '',
+            id = 0;
 
         getResource('http://localhost:3000/auth')
             .then(res => {
@@ -48,9 +54,12 @@ const auth = () => {
                     if (res[i].login == login.value) {
                         trueLogin = res[i].login;
                         loginCheck = true;
+                        trueName = res[i].name;
+                        id = res[i].id;
                     }
                     if (res[i].password == password.value) {
                         passwordCheck = true;
+                        truePass = res[i].password;
                     }
                 }
             }).catch(e => {
@@ -68,6 +77,9 @@ const auth = () => {
                         localStorage.setItem('deadline-month', dead.month);
                         localStorage.setItem('deadline-day', dead.day);
                         localStorage.setItem('login', trueLogin);
+                        localStorage.setItem('name', trueName);
+                        localStorage.setItem('pass', truePass);
+                        localStorage.setItem('id', id);
                     }
                     nick.textContent = trueLogin;
                     authBtn.style.display = 'none';
@@ -108,6 +120,9 @@ const auth = () => {
         localStorage.removeItem('deadline-month');
         localStorage.removeItem('deadline-day');
         localStorage.removeItem('login');
+        localStorage.removeItem('name');
+        localStorage.removeItem('pass');
+        localStorage.removeItem('id');
         exitModal.classList.remove('show');
         exitModal.style.display = 'none';
     });

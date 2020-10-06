@@ -2841,6 +2841,39 @@ addToUnscopables('entries');
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.function.name.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.function.name.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
+var defineProperty = __webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f;
+
+var FunctionPrototype = Function.prototype;
+var FunctionPrototypeToString = FunctionPrototype.toString;
+var nameRE = /^\s*function ([^ (]*)/;
+var NAME = 'name';
+
+// Function instances `.name` property
+// https://tc39.github.io/ecma262/#sec-function-instances-name
+if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
+  defineProperty(FunctionPrototype, NAME, {
+    configurable: true,
+    get: function () {
+      try {
+        return FunctionPrototypeToString.call(this).match(nameRE)[1];
+      } catch (error) {
+        return '';
+      }
+    }
+  });
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.object.from-entries.js":
 /*!****************************************************************!*\
   !*** ./node_modules/core-js/modules/es.object.from-entries.js ***!
@@ -4203,6 +4236,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
 /* harmony import */ var _modules_reg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/reg */ "./src/js/modules/reg.js");
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/auth */ "./src/js/modules/auth.js");
+/* harmony import */ var _modules_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/settings */ "./src/js/modules/settings.js");
+
 
 
 
@@ -4212,12 +4247,14 @@ window.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_0__["default"])('.wrapper');
+  Object(_modules_reg__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.dorpDownTrigger', '.dropList');
   Object(_modules_dropdown__WEBPACK_IMPORTED_MODULE_1__["default"])('.btn-drop', '.dropList1');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.auth-btn', '.auth-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.exit', '.exit-modal');
-  Object(_modules_reg__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  Object(_modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"])();
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.settings', '.settings-modal');
+  Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
 });
 
 /***/ }),
@@ -4231,13 +4268,16 @@ window.addEventListener('DOMContentLoaded', function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
 
 
 
@@ -4266,6 +4306,9 @@ var auth = function auth() {
       localStorage.removeItem('deadline-month');
       localStorage.removeItem('deadline-day');
       localStorage.removeItem('login');
+      localStorage.removeItem('name');
+      localStorage.removeItem('pass');
+      localStorage.removeItem('id');
     }
   }
 
@@ -4281,16 +4324,22 @@ var auth = function auth() {
         checkbox = form.querySelector('[name="checkbox"]');
     var loginCheck = false,
         passwordCheck = false,
-        trueLogin = '';
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/auth').then(function (res) {
+        trueLogin = '',
+        trueName = '',
+        truePass = '',
+        id = 0;
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/auth').then(function (res) {
       for (var i = 0; i < res.length; i++) {
         if (res[i].login == login.value) {
           trueLogin = res[i].login;
           loginCheck = true;
+          trueName = res[i].name;
+          id = res[i].id;
         }
 
         if (res[i].password == password.value) {
           passwordCheck = true;
+          truePass = res[i].password;
         }
       }
     }).catch(function (e) {
@@ -4309,6 +4358,9 @@ var auth = function auth() {
           localStorage.setItem('deadline-month', dead.month);
           localStorage.setItem('deadline-day', dead.day);
           localStorage.setItem('login', trueLogin);
+          localStorage.setItem('name', trueName);
+          localStorage.setItem('pass', truePass);
+          localStorage.setItem('id', id);
         }
 
         nick.textContent = trueLogin;
@@ -4341,6 +4393,9 @@ var auth = function auth() {
     localStorage.removeItem('deadline-month');
     localStorage.removeItem('deadline-day');
     localStorage.removeItem('login');
+    localStorage.removeItem('name');
+    localStorage.removeItem('pass');
+    localStorage.removeItem('id');
     exitModal.classList.remove('show');
     exitModal.style.display = 'none';
   });
@@ -4560,6 +4615,31 @@ var reg = function reg() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (reg);
+
+/***/ }),
+
+/***/ "./src/js/modules/settings.js":
+/*!************************************!*\
+  !*** ./src/js/modules/settings.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var settings = function settings() {
+  var name = document.querySelector('.setting-name'),
+      login = document.querySelector('.setting-login'),
+      pass = document.querySelector('.setting-pass'),
+      id = document.querySelector('.setting-id'),
+      btnShow = document.querySelector('.btn-show');
+  name.value = localStorage.getItem('name');
+  login.value = localStorage.getItem('login');
+  pass.value = localStorage.getItem('pass');
+  id.textContent = 'Уникальный идентификатор: ' + localStorage.getItem('id');
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (settings);
 
 /***/ }),
 

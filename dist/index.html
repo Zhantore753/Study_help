@@ -33,7 +33,7 @@
           <a class="nav-link dropdown-toggle dorpDownTrigger nick-inner" href="#" id="navbarDropdown">
           </a>
           <div class="dropdown-menu dropList1" aria-labelledby="navbarDropdown">
-            <a href="#" class="dropdown-item">Настройки</a>
+            <a href="#" class="dropdown-item settings">Настройки</a>
             <a href="#" class="dropdown-item">Статистика</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item exit">Выйти</a>
@@ -129,6 +129,33 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-primary close-btn">Закрыть</button>
             <button type="button" class="btn btn-danger" data-exit data-dismiss="modal">Выйти из аккаунта</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal settings-modal" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Настройки аккаунта</h5>
+            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body settings-inner">
+            <p>Имя: <input class="setting-name" type="text"></p>
+            <p>Логин: <input class="setting-login" type="text"></p>
+            <p class="setting-id"></p>
+            <div class="d-flex">
+              <p class="mr-1">Пароль: <input class="setting-pass" type="text"></p>
+              <button class="btn btn-danger btn-sm h-50 btn-show">Показать</button>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Сохранить настройки</button>
+            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
           </div>
         </div>
       </div>
