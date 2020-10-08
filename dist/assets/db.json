@@ -2,22 +2,22 @@
   "modes": [{
       "src": "assets/img/1.jpg",
       "title": "Сложение/Вычетание",
-      "link": "#"
+      "link": "sum.html"
     },
     {
       "src": "assets/img/2.jpg",
       "title": "Умножение",
-      "link": "#"
+      "link": "umnoj.html"
     },
     {
       "src": "assets/img/3.jpg",
       "title": "Деление",
-      "link": "#"
+      "link": "delen.html"
     },
     {
       "src": "assets/img/4.jpg",
       "title": "Уравнения",
-      "link": "#"
+      "link": "uravn.html"
     }
   ],
   "auth": [{

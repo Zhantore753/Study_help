@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 nav sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Study-helper</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle dorpDownTrigger" href="#" id="navbarDropdown">
+                            Режимы
+                        </a>
+                        <div class="dropdown-menu dropList" aria-labelledby="navbarDropdown"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Топы </a>
+                    </li>
+                </ul>
+                <li class="nick btn-drop nav-item dropdown btn btn-success" style="display: none">
+                    <a class="nav-link dropdown-toggle dorpDownTrigger nick-inner" href="#" id="navbarDropdown">
+                    </a>
+                    <div class="dropdown-menu dropList1" aria-labelledby="navbarDropdown">
+                        <a href="#" class="dropdown-item settings">Информация</a>
+                        <a href="#" class="dropdown-item">Статистика</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item exit">Выйти</a>
+                    </div>
+                </li>
+                <button class="btn btn-outline-success my-2 my-sm-0 auth-btn">
+                    Вход/Регистрация
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="container1">
+        <div class="container__inner1">
+            <div class="app">
+                <div class="task">
+                    <h2 id="firstNumber" class="number"></h2>
+                    <h2 id="secondNumber" class="number"></h2>
+                </div>
+                <div class="solution">
+
+                </div>
+                <div class="answer">
+                    <h2 id="thirdNumber" class="number"></h2>
+                </div>
+            </div>
+            <div class="menu">
+                <button class="giveAnswer">Ответ</button>
+                <button class="giveSolution">Решение поэтапно</button>
+            </div>
+        </div>
+        <div class="modal off">
+            <h2 class="modal__dialog"></h2>
+            <button class="step1 on-btn">Дальше</button>
+            <button class="step2 off">Дальше</button>
+            <button class="step3 off">Дальше</button>
+            <button class="step4 off">Дальше</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

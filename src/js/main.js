@@ -4,6 +4,7 @@ import modal from './modules/modal';
 import reg from './modules/reg';
 import auth from './modules/auth';
 import settings from './modules/settings';
+import umnoj from './modules/umnoj';
 
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
@@ -17,4 +18,5 @@ window.addEventListener('DOMContentLoaded', () => {
     modal('.exit', '.exit-modal');
     modal('.settings', '.settings-modal');
     settings();
+    umnoj();
 });

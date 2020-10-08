@@ -3,23 +3,24 @@ import {
 } from '../services/requests';
 
 const loadCards = (wrapper) => {
-    getResource('http://localhost:3000/modes')
-        .then(res => createCards(res))
-        .catch(error => console.log(error));
+    try {
+        getResource('http://localhost:3000/modes')
+            .then(res => createCards(res))
+            .catch(error => console.log(error));
 
-    function createCards(response) {
-        response.forEach(({
-            src,
-            title,
-            link
-        }) => {
-            let card = document.createElement('a');
+        function createCards(response) {
+            response.forEach(({
+                src,
+                title,
+                link
+            }) => {
+                let card = document.createElement('a');
 
-            card.setAttribute('href', link);
-            card.style.width = "18rem";
-            card.classList.add('card', 'col-lg-3', 'col-md-4', 'col-sm-6', 'col-12', 'mb-2', 'p-0');
+                card.setAttribute('href', link);
+                card.style.width = "18rem";
+                card.classList.add('card', 'col-lg-3', 'col-md-4', 'col-sm-6', 'col-12', 'mb-2', 'p-0');
 
-            card.innerHTML = `
+                card.innerHTML = `
                     <img
                     class="card-img-top"
                     src="${src}"
@@ -33,9 +34,10 @@ const loadCards = (wrapper) => {
                 </div>
             `;
 
-            document.querySelector(wrapper).appendChild(card);
-        });
-    }
+                document.querySelector(wrapper).appendChild(card);
+            });
+        }
+    } catch (e) {}
 };
 
 export default loadCards;

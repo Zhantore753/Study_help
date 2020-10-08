@@ -4672,6 +4672,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_reg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/reg */ "./src/js/modules/reg.js");
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/auth */ "./src/js/modules/auth.js");
 /* harmony import */ var _modules_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/settings */ "./src/js/modules/settings.js");
+/* harmony import */ var _modules_umnoj__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/umnoj */ "./src/js/modules/umnoj.js");
+
 
 
 
@@ -4690,6 +4692,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.exit', '.exit-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.settings', '.settings-modal');
   Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
+  Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
 });
 
 /***/ }),
@@ -4719,24 +4722,112 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var auth = function auth() {
-  var date = new Date(),
-      year = date.getFullYear(),
-      month = date.getMonth(),
-      day = date.getDate(),
-      nick = document.querySelector('.nick-inner'),
-      nickWrap = document.querySelector('.nick'),
-      authBtn = document.querySelector('.auth-btn'),
-      localDateYear = localStorage.getItem('deadline-year'),
-      localDateMonth = localStorage.getItem('deadline-month'),
-      localDateDay = localStorage.getItem('deadline-day');
+  try {
+    var date = new Date(),
+        year = date.getFullYear(),
+        month = date.getMonth(),
+        day = date.getDate(),
+        nick = document.querySelector('.nick-inner'),
+        nickWrap = document.querySelector('.nick'),
+        authBtn = document.querySelector('.auth-btn'),
+        localDateYear = localStorage.getItem('deadline-year'),
+        localDateMonth = localStorage.getItem('deadline-month'),
+        localDateDay = localStorage.getItem('deadline-day');
 
-  if (localDateYear && localDateMonth && localDateDay) {
-    if (+localDateYear >= +year && +localDateMonth >= +month && +localDateDay >= +day) {
-      var localLogin = localStorage.getItem('login');
-      nick.textContent = localLogin;
-      authBtn.style.display = 'none';
-      nickWrap.style.display = '';
-    } else {
+    if (localDateYear && localDateMonth && localDateDay) {
+      if (+localDateYear >= +year && +localDateMonth >= +month && +localDateDay >= +day) {
+        var localLogin = localStorage.getItem('login');
+        nick.textContent = localLogin;
+        authBtn.style.display = 'none';
+        nickWrap.style.display = '';
+      } else {
+        localStorage.removeItem('deadline-year');
+        localStorage.removeItem('deadline-month');
+        localStorage.removeItem('deadline-day');
+        localStorage.removeItem('login');
+        localStorage.removeItem('name');
+        localStorage.removeItem('pass');
+        localStorage.removeItem('id');
+      }
+    }
+
+    var form = document.querySelector('.auth-form'),
+        exitBtn = document.querySelector('[data-exit]'),
+        exitModal = document.querySelector('.exit-modal'),
+        authModal = document.querySelector('.auth-modal'); // forms.forEach(form => {
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var login = form.querySelector('[name="login"]'),
+          password = form.querySelector('[name="password"]'),
+          checkbox = form.querySelector('[name="checkbox"]');
+      var loginCheck = false,
+          passwordCheck = false,
+          trueLogin = '',
+          trueName = '',
+          truePass = '',
+          id = 0;
+      Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/auth').then(function (res) {
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].login == login.value) {
+            trueLogin = res[i].login;
+            loginCheck = true;
+            trueName = res[i].name;
+            id = res[i].id;
+          }
+
+          if (res[i].password == password.value) {
+            passwordCheck = true;
+            truePass = res[i].password;
+          }
+        }
+      }).catch(function (e) {
+        console.log(e);
+      }).finally(function () {
+        var checked = document.createElement('div');
+
+        if (loginCheck && passwordCheck) {
+          if (checkbox.checked == true) {
+            var dead = {
+              year: year,
+              month: month,
+              day: day + 1
+            };
+            localStorage.setItem('deadline-year', dead.year);
+            localStorage.setItem('deadline-month', dead.month);
+            localStorage.setItem('deadline-day', dead.day);
+            localStorage.setItem('login', trueLogin);
+            localStorage.setItem('name', trueName);
+            localStorage.setItem('pass', truePass);
+            localStorage.setItem('id', id);
+          }
+
+          nick.textContent = trueLogin;
+          authBtn.style.display = 'none';
+          nickWrap.style.display = '';
+          checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
+          form.appendChild(checked);
+          setTimeout(function () {
+            document.querySelector('[name="login"]').value = '';
+            document.querySelector('[name="password"]').value = '';
+            document.querySelector('[name="checkbox"]').value = '';
+            checked.remove();
+          }, 3000);
+          setTimeout(function () {
+            authModal.classList.remove('show');
+            authModal.style.display = 'none';
+          }, 7000);
+        } else {
+          checked.innerHTML = "<div class=\"text-center\">\n                            \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043B\u043E\u0433\u0438\u043D \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C!\n                        </div>";
+          form.appendChild(checked);
+        }
+      });
+    }); // });
+
+    exitBtn.addEventListener('click', function () {
+      nick.textContent = '';
+      authBtn.style.display = '';
+      nickWrap.style.display = 'none';
       localStorage.removeItem('deadline-year');
       localStorage.removeItem('deadline-month');
       localStorage.removeItem('deadline-day');
@@ -4744,96 +4835,10 @@ var auth = function auth() {
       localStorage.removeItem('name');
       localStorage.removeItem('pass');
       localStorage.removeItem('id');
-    }
-  }
-
-  var form = document.querySelector('.auth-form'),
-      exitBtn = document.querySelector('[data-exit]'),
-      exitModal = document.querySelector('.exit-modal'),
-      authModal = document.querySelector('.auth-modal'); // forms.forEach(form => {
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var login = form.querySelector('[name="login"]'),
-        password = form.querySelector('[name="password"]'),
-        checkbox = form.querySelector('[name="checkbox"]');
-    var loginCheck = false,
-        passwordCheck = false,
-        trueLogin = '',
-        trueName = '',
-        truePass = '',
-        id = 0;
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/auth').then(function (res) {
-      for (var i = 0; i < res.length; i++) {
-        if (res[i].login == login.value) {
-          trueLogin = res[i].login;
-          loginCheck = true;
-          trueName = res[i].name;
-          id = res[i].id;
-        }
-
-        if (res[i].password == password.value) {
-          passwordCheck = true;
-          truePass = res[i].password;
-        }
-      }
-    }).catch(function (e) {
-      console.log(e);
-    }).finally(function () {
-      var checked = document.createElement('div');
-
-      if (loginCheck && passwordCheck) {
-        if (checkbox.checked == true) {
-          var dead = {
-            year: year,
-            month: month,
-            day: day + 1
-          };
-          localStorage.setItem('deadline-year', dead.year);
-          localStorage.setItem('deadline-month', dead.month);
-          localStorage.setItem('deadline-day', dead.day);
-          localStorage.setItem('login', trueLogin);
-          localStorage.setItem('name', trueName);
-          localStorage.setItem('pass', truePass);
-          localStorage.setItem('id', id);
-        }
-
-        nick.textContent = trueLogin;
-        authBtn.style.display = 'none';
-        nickWrap.style.display = '';
-        checked.innerHTML = "<div class=\"text-center\">\n                            \u0412\u044B \u0437\u0430\u0448\u043B\u0438!\n                        </div>";
-        form.appendChild(checked);
-        setTimeout(function () {
-          document.querySelector('[name="login"]').value = '';
-          document.querySelector('[name="password"]').value = '';
-          document.querySelector('[name="checkbox"]').value = '';
-          checked.remove();
-        }, 3000);
-        setTimeout(function () {
-          authModal.classList.remove('show');
-          authModal.style.display = 'none';
-        }, 7000);
-      } else {
-        checked.innerHTML = "<div class=\"text-center\">\n                            \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u044B\u0439 \u043B\u043E\u0433\u0438\u043D \u0438\u043B\u0438 \u043F\u0430\u0440\u043E\u043B\u044C!\n                        </div>";
-        form.appendChild(checked);
-      }
+      exitModal.classList.remove('show');
+      exitModal.style.display = 'none';
     });
-  }); // });
-
-  exitBtn.addEventListener('click', function () {
-    nick.textContent = '';
-    authBtn.style.display = '';
-    nickWrap.style.display = 'none';
-    localStorage.removeItem('deadline-year');
-    localStorage.removeItem('deadline-month');
-    localStorage.removeItem('deadline-day');
-    localStorage.removeItem('login');
-    localStorage.removeItem('name');
-    localStorage.removeItem('pass');
-    localStorage.removeItem('id');
-    exitModal.classList.remove('show');
-    exitModal.style.display = 'none';
-  });
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (auth);
@@ -4862,25 +4867,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var loadCards = function loadCards(wrapper) {
-  Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/modes').then(function (res) {
-    return createCards(res);
-  }).catch(function (error) {
-    return console.log(error);
-  });
-
-  function createCards(response) {
-    response.forEach(function (_ref) {
-      var src = _ref.src,
-          title = _ref.title,
-          link = _ref.link;
-      var card = document.createElement('a');
-      card.setAttribute('href', link);
-      card.style.width = "18rem";
-      card.classList.add('card', 'col-lg-3', 'col-md-4', 'col-sm-6', 'col-12', 'mb-2', 'p-0');
-      card.innerHTML = "\n                    <img\n                    class=\"card-img-top\"\n                    src=\"".concat(src, "\"\n                    alt=\"Card image cap\"\n                />\n                <div class=\"card-body\">\n                    <h5 class=\"card-title\">").concat(title, "</h5>\n                    <p class=\"card-text\">\n                    \u0421\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0439\u0442\u0435 \u0438 \u043E\u0442\u043D\u0438\u043C\u0430\u0439\u0442\u0435 \u0447\u0438\u0441\u043B\u0430 \u043E\u0442 1 \u0434\u043E 1000(\u0434\u043E 5 \u0447\u0438\u0441\u0435\u043B)\n                    </p>\n                </div>\n            ");
-      document.querySelector(wrapper).appendChild(card);
+  try {
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/modes').then(function (res) {
+      return createCards(res);
+    }).catch(function (error) {
+      return console.log(error);
     });
-  }
+
+    function createCards(response) {
+      response.forEach(function (_ref) {
+        var src = _ref.src,
+            title = _ref.title,
+            link = _ref.link;
+        var card = document.createElement('a');
+        card.setAttribute('href', link);
+        card.style.width = "18rem";
+        card.classList.add('card', 'col-lg-3', 'col-md-4', 'col-sm-6', 'col-12', 'mb-2', 'p-0');
+        card.innerHTML = "\n                    <img\n                    class=\"card-img-top\"\n                    src=\"".concat(src, "\"\n                    alt=\"Card image cap\"\n                />\n                <div class=\"card-body\">\n                    <h5 class=\"card-title\">").concat(title, "</h5>\n                    <p class=\"card-text\">\n                    \u0421\u043A\u043B\u0430\u0434\u044B\u0432\u0430\u0439\u0442\u0435 \u0438 \u043E\u0442\u043D\u0438\u043C\u0430\u0439\u0442\u0435 \u0447\u0438\u0441\u043B\u0430 \u043E\u0442 1 \u0434\u043E 1000(\u0434\u043E 5 \u0447\u0438\u0441\u0435\u043B)\n                    </p>\n                </div>\n            ");
+        document.querySelector(wrapper).appendChild(card);
+      });
+    }
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (loadCards);
@@ -4906,34 +4913,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var dropDown = function dropDown(trigger, wrapper) {
-  if (wrapper == '.dropList') {
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/modes').then(function (res) {
-      return loadModes(res);
-    }).catch(function (e) {
-      return console.log(e);
-    });
-
-    function loadModes(response) {
-      response.forEach(function (_ref) {
-        var src = _ref.src,
-            title = _ref.title,
-            link = _ref.link;
-        var mode = document.createElement('a');
-        mode.setAttribute('href', link);
-        mode.classList.add('dropdown-item');
-        mode.innerHTML = "".concat(title);
-        document.querySelector(wrapper).appendChild(mode);
+  try {
+    if (wrapper == '.dropList') {
+      Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/modes').then(function (res) {
+        return loadModes(res);
+      }).catch(function (e) {
+        return console.log(e);
       });
-    }
-  }
 
-  var btn = document.querySelector(trigger),
-      list = document.querySelector(wrapper);
-  btn.addEventListener('click', function (e) {
-    e.preventDefault();
-    btn.classList.toggle('show');
-    list.classList.toggle('show');
-  });
+      function loadModes(response) {
+        response.forEach(function (_ref) {
+          var src = _ref.src,
+              title = _ref.title,
+              link = _ref.link;
+          var mode = document.createElement('a');
+          mode.setAttribute('href', link);
+          mode.classList.add('dropdown-item');
+          mode.innerHTML = "".concat(title);
+          document.querySelector(wrapper).appendChild(mode);
+        });
+      }
+    }
+
+    var btn = document.querySelector(trigger),
+        list = document.querySelector(wrapper);
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      btn.classList.toggle('show');
+      list.classList.toggle('show');
+    });
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (dropDown);
@@ -4954,39 +4963,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var modal = function modal(trigger, _modal) {
-  var btn = document.querySelector(trigger),
-      thisModal = document.querySelector(_modal);
-  btn.addEventListener('click', function (e) {
-    // e.preventDefault();
-    thisModal.classList.add('show');
-    thisModal.style.display = 'block';
-  });
-  thisModal.querySelectorAll('.close-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      thisModal.classList.remove('show');
-      thisModal.style.display = 'none';
-    });
-  });
-
   try {
-    var auth = thisModal.querySelector('[data-auth]'),
-        reg = thisModal.querySelector('[data-reg]');
-    auth.addEventListener('click', function (e) {
-      thisModal.querySelector('.auth-form').style.display = "block";
-      thisModal.querySelector('.reg').style.display = "none";
-      auth.classList.add('btn-secondary');
-      auth.classList.remove('btn-outline-secondary');
-      reg.classList.remove('btn-secondary');
-      reg.classList.add('btn-outline-secondary');
+    var btn = document.querySelector(trigger),
+        thisModal = document.querySelector(_modal);
+    btn.addEventListener('click', function (e) {
+      // e.preventDefault();
+      thisModal.classList.add('show');
+      thisModal.style.display = 'block';
     });
-    reg.addEventListener('click', function (e) {
-      thisModal.querySelector('.reg').style.display = "block";
-      thisModal.querySelector('.auth-form').style.display = "none";
-      reg.classList.add('btn-secondary');
-      reg.classList.remove('btn-outline-secondary');
-      auth.classList.remove('btn-secondary');
-      auth.classList.add('btn-outline-secondary');
+    thisModal.querySelectorAll('.close-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        thisModal.classList.remove('show');
+        thisModal.style.display = 'none';
+      });
     });
+
+    try {
+      var auth = thisModal.querySelector('[data-auth]'),
+          reg = thisModal.querySelector('[data-reg]');
+      auth.addEventListener('click', function (e) {
+        thisModal.querySelector('.auth-form').style.display = "block";
+        thisModal.querySelector('.reg').style.display = "none";
+        auth.classList.add('btn-secondary');
+        auth.classList.remove('btn-outline-secondary');
+        reg.classList.remove('btn-secondary');
+        reg.classList.add('btn-outline-secondary');
+      });
+      reg.addEventListener('click', function (e) {
+        thisModal.querySelector('.reg').style.display = "block";
+        thisModal.querySelector('.auth-form').style.display = "none";
+        reg.classList.add('btn-secondary');
+        reg.classList.remove('btn-outline-secondary');
+        auth.classList.remove('btn-secondary');
+        auth.classList.add('btn-outline-secondary');
+      });
+    } catch (e) {}
   } catch (e) {}
 };
 
@@ -5067,26 +5078,227 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var settings = function settings() {
-  var name = document.querySelector('.setting-name'),
-      login = document.querySelector('.setting-login'),
-      pass = document.querySelector('.setting-pass'),
-      id = document.querySelector('.setting-id'),
-      realId = localStorage.getItem('id'),
-      checkShow = document.querySelector('.check-show');
-  name.value = localStorage.getItem('name');
-  login.value = localStorage.getItem('login');
-  pass.value = localStorage.getItem('pass').replace(/\*/g, '*');
-  id.textContent = 'Уникальный идентификатор: ' + realId;
-  checkShow.addEventListener('click', function () {
-    if (checkShow.checked) {
-      pass.setAttribute('type', 'text');
-    } else {
-      pass.setAttribute('type', 'password');
-    }
-  });
+  try {
+    var name = document.querySelector('.setting-name'),
+        login = document.querySelector('.setting-login'),
+        pass = document.querySelector('.setting-pass'),
+        id = document.querySelector('.setting-id'),
+        realId = localStorage.getItem('id'),
+        checkShow = document.querySelector('.check-show');
+    name.value = localStorage.getItem('name');
+    login.value = localStorage.getItem('login');
+    pass.value = localStorage.getItem('pass').replace(/\*/g, '*');
+    id.textContent = 'Уникальный идентификатор: ' + realId;
+    checkShow.addEventListener('click', function () {
+      if (checkShow.checked) {
+        pass.setAttribute('type', 'text');
+      } else {
+        pass.setAttribute('type', 'password');
+      }
+    });
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (settings);
+
+/***/ }),
+
+/***/ "./src/js/modules/umnoj.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/umnoj.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+var umnoj = function umnoj() {
+  var firstNumber = document.querySelector("#firstNumber"),
+      secondNumber = document.querySelector("#secondNumber"),
+      firstRandom = String(getRandomBetween(1, 9)),
+      secondRandom = String(getRandomBetween(1, 9)),
+      thirdRandom = String(getRandomBetween(1, 9)),
+      foursRandom = String(getRandomBetween(1, 9)),
+      firstValue = firstRandom + secondRandom,
+      secondValue = thirdRandom + foursRandom,
+      thirdNumber = document.querySelector("#thirdNumber"),
+      giveAnswer = document.querySelector(".giveAnswer"),
+      giveSolution = document.querySelector(".giveSolution"),
+      modal = document.querySelector(".modal"),
+      modalDialog = document.querySelector(".modal__dialog"),
+      answerTeg = document.querySelector(".answer"),
+      solDiv = document.querySelector(".solution"),
+      step1 = document.querySelector(".step1"),
+      step2 = document.querySelector(".step2"),
+      step3 = document.querySelector(".step3"),
+      step4 = document.querySelector(".step4");
+  var firstSol = 0;
+  var secondSol = 0;
+  var thirdSol = 0;
+  var foursSol = 0;
+  firstNumber.innerHTML = "\n    <span id=\"first\">".concat(firstRandom, "</span>\n    <span id=\"second\">").concat(secondRandom, "</span>\n");
+  secondNumber.innerHTML = "\n    <span id=\"third\">".concat(thirdRandom, "</span>\n    <span id=\"fours\">").concat(foursRandom, "</span>\n");
+  thirdNumber.innerHTML = "";
+  var arr = String(+firstValue * +secondValue);
+
+  for (var i = 0; i < arr.length; i++) {
+    var elem = arr[i].replace(/./g, "*");
+    thirdNumber.innerHTML += "\n        <span id=\"".concat(i, "\">").concat(elem, "</span>\n    ");
+  }
+
+  giveAnswer.addEventListener("click", function () {
+    thirdNumber.innerHTML = "";
+    var arr = String(+firstValue * +secondValue);
+
+    for (var _i = 0; _i < arr.length; _i++) {
+      thirdNumber.innerHTML += "\n        <span id=\"".concat(_i, "\">").concat(arr[_i], "</span>\n    ");
+    }
+  });
+
+  function getRandomBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  var first = document.querySelectorAll("#firstNumber span"),
+      second = document.querySelectorAll("#secondNumber span");
+  giveSolution.addEventListener("click", function () {
+    modal.classList.add("on");
+    modal.classList.remove("off");
+    var solution = foursRandom * secondRandom;
+    modalDialog.textContent = "".concat(foursRandom, " * ").concat(secondRandom, " = ").concat(solution);
+    first[1].classList.add("active");
+    second[1].classList.add("active");
+    solDiv.innerHTML = "\n    <h2 class=\"firstSol number\"></h2>\n  ";
+    var solDivIn = document.querySelector(".firstSol");
+    var arr = String(solution);
+
+    for (var _i2 = 0; _i2 < arr.length; _i2++) {
+      solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i2], "</span>\n    ");
+    }
+
+    firstSol = solution;
+  });
+  step1.addEventListener("click", function () {
+    var solution = foursRandom * firstRandom;
+    modalDialog.textContent = "".concat(foursRandom, " * ").concat(firstRandom, " = ").concat(solution);
+    first[1].classList.remove("active");
+    first[0].classList.add("active");
+    second[1].classList.add("active");
+    solDiv.innerHTML += "\n    <h2 class=\"secondSol number\">\n    </h2>\n  ";
+    var solDivInPrev = document.querySelectorAll(".firstSol span");
+    var solDivIn = document.querySelector(".secondSol");
+
+    for (var k = 0; k < solDivInPrev.length; k++) {
+      solDivInPrev[k].classList.remove("second-active");
+    }
+
+    var arr = String(solution);
+
+    for (var _i3 = 0; _i3 < arr.length; _i3++) {
+      solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i3], "</span>\n    ");
+    }
+
+    solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
+    step1.classList.add("off");
+    step1.classList.remove("on-btn");
+    step2.classList.add("on-btn");
+    step2.classList.remove("off");
+    secondSol = solution;
+    secondSol += "0";
+  });
+  step2.addEventListener("click", function () {
+    var solution = thirdRandom * secondRandom;
+    modalDialog.textContent = "".concat(thirdRandom, " * ").concat(secondRandom, " = ").concat(solution);
+    first[1].classList.add("active");
+    first[0].classList.remove("active");
+    second[1].classList.remove("active");
+    second[0].classList.add("active");
+    solDiv.innerHTML += "\n      <h2 class=\"thirdSol number\"></h2>\n    ";
+    var solDivInPrev = document.querySelectorAll(".secondSol span");
+    var solDivIn = document.querySelector(".thirdSol");
+
+    for (var k = 0; k < solDivInPrev.length; k++) {
+      solDivInPrev[k].classList.remove("second-active");
+    }
+
+    var arr = String(solution);
+
+    for (var _i4 = 0; _i4 < arr.length; _i4++) {
+      solDivIn.innerHTML += "\n          <span class=\"second-active\">".concat(arr[_i4], "</span>\n      ");
+    }
+
+    solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
+    step2.classList.add("off");
+    step2.classList.remove("on-btn");
+    step3.classList.add("on-btn");
+    step3.classList.remove("off");
+    thirdSol = solution;
+    thirdSol += "0";
+  });
+  step3.addEventListener("click", function () {
+    var solution = thirdRandom * firstRandom;
+    modalDialog.textContent = "".concat(thirdRandom, " * ").concat(firstRandom, " = ").concat(solution);
+    first[0].classList.add("active");
+    first[1].classList.remove("active");
+    second[1].classList.remove("active");
+    second[0].classList.add("active");
+    solDiv.innerHTML += "\n        <h2 class=\"foursSol number\"></h2>\n      ";
+    var solDivInPrev = document.querySelectorAll(".thirdSol span");
+    var solDivIn = document.querySelector(".foursSol");
+
+    for (var k = 0; k < solDivInPrev.length; k++) {
+      solDivInPrev[k].classList.remove("second-active");
+    }
+
+    var arr = String(solution);
+
+    for (var _i5 = 0; _i5 < arr.length; _i5++) {
+      solDivIn.innerHTML += "\n            <span class=\"second-active\">".concat(arr[_i5], "</span>\n        ");
+    }
+
+    solDivIn.innerHTML += "\n      <span class=\"third-active\">0</span>\n      <span class=\"third-active\">0</span>\n    ";
+    step3.classList.add("off");
+    step3.classList.remove("on-btn");
+    step4.classList.add("on-btn");
+    step4.classList.remove("off");
+    foursSol = solution;
+    foursSol += "00";
+  });
+  step4.addEventListener("click", function () {
+    var solution = +firstSol + +secondSol + +thirdSol + +foursSol;
+    modalDialog.textContent = "".concat(firstSol, " + ").concat(secondSol, " + ").concat(thirdSol, " + ").concat(foursSol, " = ").concat(solution);
+    first[0].classList.remove("active");
+    first[1].classList.remove("active");
+    second[1].classList.remove("active");
+    second[0].classList.remove("active");
+    var solDivInPrev = document.querySelectorAll(".foursSol span");
+
+    for (var k = 0; k < solDivInPrev.length; k++) {
+      solDivInPrev[k].classList.remove("second-active");
+    }
+
+    thirdNumber.innerHTML = "";
+    var arr = String(+firstValue * +secondValue);
+
+    for (var _i6 = 0; _i6 < arr.length; _i6++) {
+      thirdNumber.innerHTML += "\n        <span>".concat(arr[_i6], "</span>\n    ");
+    }
+
+    thirdNumber.classList.add("second-active");
+    solDiv.classList.add("active");
+    step4.classList.remove("on-btn");
+    step4.classList.add("off");
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (umnoj);
 
 /***/ }),
 
