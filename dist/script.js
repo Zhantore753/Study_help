@@ -4673,6 +4673,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/auth */ "./src/js/modules/auth.js");
 /* harmony import */ var _modules_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/settings */ "./src/js/modules/settings.js");
 /* harmony import */ var _modules_umnoj__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/umnoj */ "./src/js/modules/umnoj.js");
+/* harmony import */ var _modules_sum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/sum */ "./src/js/modules/sum.js");
+
 
 
 
@@ -4693,6 +4695,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.settings', '.settings-modal');
   Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
 });
 
 /***/ }),
@@ -5103,6 +5106,84 @@ var settings = function settings() {
 
 /***/ }),
 
+/***/ "./src/js/modules/sum.js":
+/*!*******************************!*\
+  !*** ./src/js/modules/sum.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var sum = function sum() {
+  var btnStart = document.querySelector('#start-sum'),
+      pointsWrap = document.querySelector('.sum_points'),
+      seconds = document.querySelector('.seconds'),
+      zadacha = document.querySelector('.sum_zadacha'),
+      answer = document.querySelector('.sum_answer'),
+      btnAnswer = document.querySelector('#sum-otvet'),
+      points = 0,
+      timer = 0;
+  var numbers = [],
+      trueAnswer = 0;
+  btnStart.addEventListener('click', function () {
+    var amountNum = getRandomBetween(3, 5);
+    numbers = [];
+    zadacha.textContent = '';
+
+    for (var i = 0; i < amountNum; i++) {
+      var znak = getRandomBetween(1, 2);
+
+      if (i != 0) {
+        if (znak == 2) {
+          numbers.push('+');
+        } else {
+          numbers.push('-');
+        }
+      }
+
+      var number = getRandomBetween(1, 9999);
+      numbers.push(number);
+
+      if (i == 0) {
+        trueAnswer = number;
+      } else if (znak == 2) {
+        trueAnswer = trueAnswer + number;
+      } else {
+        trueAnswer = trueAnswer - number;
+      }
+    }
+
+    btnStart.textContent = "Дальше";
+    console.log(numbers);
+    console.log(trueAnswer);
+    numbers.forEach(function (number) {
+      zadacha.textContent += "".concat(number, " ");
+    });
+  });
+  btnAnswer.addEventListener('click', function () {
+    var userAnswer = answer.value;
+
+    if (userAnswer == trueAnswer) {
+      console.log('Все верно!');
+    } else {
+      console.log('Ошибка!');
+    }
+  });
+
+  function getRandomBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (sum);
+
+/***/ }),
+
 /***/ "./src/js/modules/umnoj.js":
 /*!*********************************!*\
   !*** ./src/js/modules/umnoj.js ***!
@@ -5120,182 +5201,184 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var umnoj = function umnoj() {
-  var firstNumber = document.querySelector("#firstNumber"),
-      secondNumber = document.querySelector("#secondNumber"),
-      firstRandom = String(getRandomBetween(1, 9)),
-      secondRandom = String(getRandomBetween(1, 9)),
-      thirdRandom = String(getRandomBetween(1, 9)),
-      foursRandom = String(getRandomBetween(1, 9)),
-      firstValue = firstRandom + secondRandom,
-      secondValue = thirdRandom + foursRandom,
-      thirdNumber = document.querySelector("#thirdNumber"),
-      giveAnswer = document.querySelector(".giveAnswer"),
-      giveSolution = document.querySelector(".giveSolution"),
-      modal = document.querySelector(".modal"),
-      modalDialog = document.querySelector(".modal__dialog"),
-      answerTeg = document.querySelector(".answer"),
-      solDiv = document.querySelector(".solution"),
-      step1 = document.querySelector(".step1"),
-      step2 = document.querySelector(".step2"),
-      step3 = document.querySelector(".step3"),
-      step4 = document.querySelector(".step4");
-  var firstSol = 0;
-  var secondSol = 0;
-  var thirdSol = 0;
-  var foursSol = 0;
-  firstNumber.innerHTML = "\n    <span id=\"first\">".concat(firstRandom, "</span>\n    <span id=\"second\">").concat(secondRandom, "</span>\n");
-  secondNumber.innerHTML = "\n    <span id=\"third\">".concat(thirdRandom, "</span>\n    <span id=\"fours\">").concat(foursRandom, "</span>\n");
-  thirdNumber.innerHTML = "";
-  var arr = String(+firstValue * +secondValue);
-
-  for (var i = 0; i < arr.length; i++) {
-    var elem = arr[i].replace(/./g, "*");
-    thirdNumber.innerHTML += "\n        <span id=\"".concat(i, "\">").concat(elem, "</span>\n    ");
-  }
-
-  giveAnswer.addEventListener("click", function () {
+  try {
+    var firstNumber = document.querySelector("#firstNumber"),
+        secondNumber = document.querySelector("#secondNumber"),
+        firstRandom = String(getRandomBetween(1, 9)),
+        secondRandom = String(getRandomBetween(1, 9)),
+        thirdRandom = String(getRandomBetween(1, 9)),
+        foursRandom = String(getRandomBetween(1, 9)),
+        firstValue = firstRandom + secondRandom,
+        secondValue = thirdRandom + foursRandom,
+        thirdNumber = document.querySelector("#thirdNumber"),
+        giveAnswer = document.querySelector(".giveAnswer"),
+        giveSolution = document.querySelector(".giveSolution"),
+        modal = document.querySelector(".modal"),
+        modalDialog = document.querySelector(".modal__dialog"),
+        answerTeg = document.querySelector(".answer"),
+        solDiv = document.querySelector(".solution"),
+        step1 = document.querySelector(".step1"),
+        step2 = document.querySelector(".step2"),
+        step3 = document.querySelector(".step3"),
+        step4 = document.querySelector(".step4");
+    var firstSol = 0;
+    var secondSol = 0;
+    var thirdSol = 0;
+    var foursSol = 0;
+    firstNumber.innerHTML = "\n    <span id=\"first\">".concat(firstRandom, "</span>\n    <span id=\"second\">").concat(secondRandom, "</span>\n");
+    secondNumber.innerHTML = "\n    <span id=\"third\">".concat(thirdRandom, "</span>\n    <span id=\"fours\">").concat(foursRandom, "</span>\n");
     thirdNumber.innerHTML = "";
     var arr = String(+firstValue * +secondValue);
 
-    for (var _i = 0; _i < arr.length; _i++) {
-      thirdNumber.innerHTML += "\n        <span id=\"".concat(_i, "\">").concat(arr[_i], "</span>\n    ");
-    }
-  });
-
-  function getRandomBetween(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-  var first = document.querySelectorAll("#firstNumber span"),
-      second = document.querySelectorAll("#secondNumber span");
-  giveSolution.addEventListener("click", function () {
-    modal.classList.add("on");
-    modal.classList.remove("off");
-    var solution = foursRandom * secondRandom;
-    modalDialog.textContent = "".concat(foursRandom, " * ").concat(secondRandom, " = ").concat(solution);
-    first[1].classList.add("active");
-    second[1].classList.add("active");
-    solDiv.innerHTML = "\n    <h2 class=\"firstSol number\"></h2>\n  ";
-    var solDivIn = document.querySelector(".firstSol");
-    var arr = String(solution);
-
-    for (var _i2 = 0; _i2 < arr.length; _i2++) {
-      solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i2], "</span>\n    ");
+    for (var i = 0; i < arr.length; i++) {
+      var elem = arr[i].replace(/./g, "*");
+      thirdNumber.innerHTML += "\n        <span id=\"".concat(i, "\">").concat(elem, "</span>\n    ");
     }
 
-    firstSol = solution;
-  });
-  step1.addEventListener("click", function () {
-    var solution = foursRandom * firstRandom;
-    modalDialog.textContent = "".concat(foursRandom, " * ").concat(firstRandom, " = ").concat(solution);
-    first[1].classList.remove("active");
-    first[0].classList.add("active");
-    second[1].classList.add("active");
-    solDiv.innerHTML += "\n    <h2 class=\"secondSol number\">\n    </h2>\n  ";
-    var solDivInPrev = document.querySelectorAll(".firstSol span");
-    var solDivIn = document.querySelector(".secondSol");
+    giveAnswer.addEventListener("click", function () {
+      thirdNumber.innerHTML = "";
+      var arr = String(+firstValue * +secondValue);
 
-    for (var k = 0; k < solDivInPrev.length; k++) {
-      solDivInPrev[k].classList.remove("second-active");
+      for (var _i = 0; _i < arr.length; _i++) {
+        thirdNumber.innerHTML += "\n        <span id=\"".concat(_i, "\">").concat(arr[_i], "</span>\n    ");
+      }
+    });
+
+    function getRandomBetween(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    var arr = String(solution);
+    var first = document.querySelectorAll("#firstNumber span"),
+        second = document.querySelectorAll("#secondNumber span");
+    giveSolution.addEventListener("click", function () {
+      modal.classList.add("on");
+      modal.classList.remove("off");
+      var solution = foursRandom * secondRandom;
+      modalDialog.textContent = "".concat(foursRandom, " * ").concat(secondRandom, " = ").concat(solution);
+      first[1].classList.add("active");
+      second[1].classList.add("active");
+      solDiv.innerHTML = "\n    <h2 class=\"firstSol number\"></h2>\n  ";
+      var solDivIn = document.querySelector(".firstSol");
+      var arr = String(solution);
 
-    for (var _i3 = 0; _i3 < arr.length; _i3++) {
-      solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i3], "</span>\n    ");
-    }
+      for (var _i2 = 0; _i2 < arr.length; _i2++) {
+        solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i2], "</span>\n    ");
+      }
 
-    solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
-    step1.classList.add("off");
-    step1.classList.remove("on-btn");
-    step2.classList.add("on-btn");
-    step2.classList.remove("off");
-    secondSol = solution;
-    secondSol += "0";
-  });
-  step2.addEventListener("click", function () {
-    var solution = thirdRandom * secondRandom;
-    modalDialog.textContent = "".concat(thirdRandom, " * ").concat(secondRandom, " = ").concat(solution);
-    first[1].classList.add("active");
-    first[0].classList.remove("active");
-    second[1].classList.remove("active");
-    second[0].classList.add("active");
-    solDiv.innerHTML += "\n      <h2 class=\"thirdSol number\"></h2>\n    ";
-    var solDivInPrev = document.querySelectorAll(".secondSol span");
-    var solDivIn = document.querySelector(".thirdSol");
+      firstSol = solution;
+    });
+    step1.addEventListener("click", function () {
+      var solution = foursRandom * firstRandom;
+      modalDialog.textContent = "".concat(foursRandom, " * ").concat(firstRandom, " = ").concat(solution);
+      first[1].classList.remove("active");
+      first[0].classList.add("active");
+      second[1].classList.add("active");
+      solDiv.innerHTML += "\n    <h2 class=\"secondSol number\">\n    </h2>\n  ";
+      var solDivInPrev = document.querySelectorAll(".firstSol span");
+      var solDivIn = document.querySelector(".secondSol");
 
-    for (var k = 0; k < solDivInPrev.length; k++) {
-      solDivInPrev[k].classList.remove("second-active");
-    }
+      for (var k = 0; k < solDivInPrev.length; k++) {
+        solDivInPrev[k].classList.remove("second-active");
+      }
 
-    var arr = String(solution);
+      var arr = String(solution);
 
-    for (var _i4 = 0; _i4 < arr.length; _i4++) {
-      solDivIn.innerHTML += "\n          <span class=\"second-active\">".concat(arr[_i4], "</span>\n      ");
-    }
+      for (var _i3 = 0; _i3 < arr.length; _i3++) {
+        solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i3], "</span>\n    ");
+      }
 
-    solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
-    step2.classList.add("off");
-    step2.classList.remove("on-btn");
-    step3.classList.add("on-btn");
-    step3.classList.remove("off");
-    thirdSol = solution;
-    thirdSol += "0";
-  });
-  step3.addEventListener("click", function () {
-    var solution = thirdRandom * firstRandom;
-    modalDialog.textContent = "".concat(thirdRandom, " * ").concat(firstRandom, " = ").concat(solution);
-    first[0].classList.add("active");
-    first[1].classList.remove("active");
-    second[1].classList.remove("active");
-    second[0].classList.add("active");
-    solDiv.innerHTML += "\n        <h2 class=\"foursSol number\"></h2>\n      ";
-    var solDivInPrev = document.querySelectorAll(".thirdSol span");
-    var solDivIn = document.querySelector(".foursSol");
+      solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
+      step1.classList.add("off");
+      step1.classList.remove("on-btn");
+      step2.classList.add("on-btn");
+      step2.classList.remove("off");
+      secondSol = solution;
+      secondSol += "0";
+    });
+    step2.addEventListener("click", function () {
+      var solution = thirdRandom * secondRandom;
+      modalDialog.textContent = "".concat(thirdRandom, " * ").concat(secondRandom, " = ").concat(solution);
+      first[1].classList.add("active");
+      first[0].classList.remove("active");
+      second[1].classList.remove("active");
+      second[0].classList.add("active");
+      solDiv.innerHTML += "\n      <h2 class=\"thirdSol number\"></h2>\n    ";
+      var solDivInPrev = document.querySelectorAll(".secondSol span");
+      var solDivIn = document.querySelector(".thirdSol");
 
-    for (var k = 0; k < solDivInPrev.length; k++) {
-      solDivInPrev[k].classList.remove("second-active");
-    }
+      for (var k = 0; k < solDivInPrev.length; k++) {
+        solDivInPrev[k].classList.remove("second-active");
+      }
 
-    var arr = String(solution);
+      var arr = String(solution);
 
-    for (var _i5 = 0; _i5 < arr.length; _i5++) {
-      solDivIn.innerHTML += "\n            <span class=\"second-active\">".concat(arr[_i5], "</span>\n        ");
-    }
+      for (var _i4 = 0; _i4 < arr.length; _i4++) {
+        solDivIn.innerHTML += "\n          <span class=\"second-active\">".concat(arr[_i4], "</span>\n      ");
+      }
 
-    solDivIn.innerHTML += "\n      <span class=\"third-active\">0</span>\n      <span class=\"third-active\">0</span>\n    ";
-    step3.classList.add("off");
-    step3.classList.remove("on-btn");
-    step4.classList.add("on-btn");
-    step4.classList.remove("off");
-    foursSol = solution;
-    foursSol += "00";
-  });
-  step4.addEventListener("click", function () {
-    var solution = +firstSol + +secondSol + +thirdSol + +foursSol;
-    modalDialog.textContent = "".concat(firstSol, " + ").concat(secondSol, " + ").concat(thirdSol, " + ").concat(foursSol, " = ").concat(solution);
-    first[0].classList.remove("active");
-    first[1].classList.remove("active");
-    second[1].classList.remove("active");
-    second[0].classList.remove("active");
-    var solDivInPrev = document.querySelectorAll(".foursSol span");
+      solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
+      step2.classList.add("off");
+      step2.classList.remove("on-btn");
+      step3.classList.add("on-btn");
+      step3.classList.remove("off");
+      thirdSol = solution;
+      thirdSol += "0";
+    });
+    step3.addEventListener("click", function () {
+      var solution = thirdRandom * firstRandom;
+      modalDialog.textContent = "".concat(thirdRandom, " * ").concat(firstRandom, " = ").concat(solution);
+      first[0].classList.add("active");
+      first[1].classList.remove("active");
+      second[1].classList.remove("active");
+      second[0].classList.add("active");
+      solDiv.innerHTML += "\n        <h2 class=\"foursSol number\"></h2>\n      ";
+      var solDivInPrev = document.querySelectorAll(".thirdSol span");
+      var solDivIn = document.querySelector(".foursSol");
 
-    for (var k = 0; k < solDivInPrev.length; k++) {
-      solDivInPrev[k].classList.remove("second-active");
-    }
+      for (var k = 0; k < solDivInPrev.length; k++) {
+        solDivInPrev[k].classList.remove("second-active");
+      }
 
-    thirdNumber.innerHTML = "";
-    var arr = String(+firstValue * +secondValue);
+      var arr = String(solution);
 
-    for (var _i6 = 0; _i6 < arr.length; _i6++) {
-      thirdNumber.innerHTML += "\n        <span>".concat(arr[_i6], "</span>\n    ");
-    }
+      for (var _i5 = 0; _i5 < arr.length; _i5++) {
+        solDivIn.innerHTML += "\n            <span class=\"second-active\">".concat(arr[_i5], "</span>\n        ");
+      }
 
-    thirdNumber.classList.add("second-active");
-    solDiv.classList.add("active");
-    step4.classList.remove("on-btn");
-    step4.classList.add("off");
-  });
+      solDivIn.innerHTML += "\n      <span class=\"third-active\">0</span>\n      <span class=\"third-active\">0</span>\n    ";
+      step3.classList.add("off");
+      step3.classList.remove("on-btn");
+      step4.classList.add("on-btn");
+      step4.classList.remove("off");
+      foursSol = solution;
+      foursSol += "00";
+    });
+    step4.addEventListener("click", function () {
+      var solution = +firstSol + +secondSol + +thirdSol + +foursSol;
+      modalDialog.textContent = "".concat(firstSol, " + ").concat(secondSol, " + ").concat(thirdSol, " + ").concat(foursSol, " = ").concat(solution);
+      first[0].classList.remove("active");
+      first[1].classList.remove("active");
+      second[1].classList.remove("active");
+      second[0].classList.remove("active");
+      var solDivInPrev = document.querySelectorAll(".foursSol span");
+
+      for (var k = 0; k < solDivInPrev.length; k++) {
+        solDivInPrev[k].classList.remove("second-active");
+      }
+
+      thirdNumber.innerHTML = "";
+      var arr = String(+firstValue * +secondValue);
+
+      for (var _i6 = 0; _i6 < arr.length; _i6++) {
+        thirdNumber.innerHTML += "\n        <span>".concat(arr[_i6], "</span>\n    ");
+      }
+
+      thirdNumber.classList.add("second-active");
+      solDiv.classList.add("active");
+      step4.classList.remove("on-btn");
+      step4.classList.add("off");
+    });
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (umnoj);

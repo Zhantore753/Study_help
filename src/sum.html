@@ -45,6 +45,37 @@
             </div>
         </div>
     </nav>
+    <section class="sum">
+        <div class="container">
+            <div class="sum_inner">
+                <div class="sum_head d-flex justify-content-between">
+                    <button class="btn btn-secondary" id="start-sum">Старт</button>
+                    <div class="points">
+                        <span>Ваши очки:</span>
+                        <span class="sum_points">0</span>
+                    </div>
+                    <div class="timer">
+                        <span>Времени прошло:</span>
+                        <span class="seconds">0</span>
+                    </div>
+                </div>
+                <h1 class="text-center">
+                    Игра Сложение/Вычетание
+                </h1>
+                <div style="height: 650px;" class="sum_body mt-3 align-middle">
+                    <div class="wrap text-center align-middle">
+                        <span class="sum_zadacha">
+                            Нажмите СТАРТ чтобы начать игру
+                        </span>
+                        <span>=</span>
+                        <input class="sum_answer" type="num">
+                        <div class="btn btn-success" id="sum-otvet">Ответить</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
     <div class="container">
         <div class="modal fade auth-modal" id="exampleModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -122,9 +153,12 @@
                         </button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary close-btn">Закрыть</button>
-                        <button type="button" class="btn btn-danger" data-exit data-dismiss="modal">Выйти из
-                            аккаунта</button>
+                        <button type="button" class="btn btn-primary close-btn">
+                            Закрыть
+                        </button>
+                        <button type="button" class="btn btn-danger" data-exit data-dismiss="modal">
+                            Выйти из аккаунта
+                        </button>
                     </div>
                 </div>
             </div>
@@ -140,25 +174,26 @@
                         </button>
                     </div>
                     <div class="modal-body settings-inner">
-                        <p>Имя: <input class="setting-name" type="text"></p>
-                        <p>Логин: <input class="setting-login" type="text"></p>
+                        <p>Имя: <input class="setting-name" type="text" /></p>
+                        <p>Логин: <input class="setting-login" type="text" /></p>
                         <p class="setting-id"></p>
                         <div class="d-flex">
-                            <p class="mr-1">Пароль: <input class="setting-pass" type="password"></p>
-                            <input class="mt-2 check-show" type="checkbox">
+                            <p class="mr-1">
+                                Пароль: <input class="setting-pass" type="password" />
+                            </p>
+                            <input class="mt-2 check-show" type="checkbox" />
                             <label>Показать пароль</label>
                         </div>
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">
+                            Закрыть
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </body>
 
 <script src="script.js"></script>

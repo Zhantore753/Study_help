@@ -5,6 +5,7 @@ import reg from './modules/reg';
 import auth from './modules/auth';
 import settings from './modules/settings';
 import umnoj from './modules/umnoj';
+import sum from './modules/sum';
 
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
@@ -19,4 +20,5 @@ window.addEventListener('DOMContentLoaded', () => {
     modal('.settings', '.settings-modal');
     settings();
     umnoj();
+    sum();
 });
