@@ -5115,23 +5115,50 @@ var settings = function settings() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 var sum = function sum() {
   var btnStart = document.querySelector('#start-sum'),
+      btnNext = document.querySelector('#next-sum'),
       pointsWrap = document.querySelector('.sum_points'),
-      seconds = document.querySelector('.seconds'),
+      secondsWrap = document.querySelector('.seconds'),
       zadacha = document.querySelector('.sum_zadacha'),
       answer = document.querySelector('.sum_answer'),
       btnAnswer = document.querySelector('#sum-otvet'),
-      points = 0,
-      timer = 0;
+      sumBody = document.querySelector('.sum_body'),
+      sumFooter = document.querySelector('.sum_footer');
   var numbers = [],
-      trueAnswer = 0;
+      trueAnswer = 0,
+      points = 0,
+      seconds = 0,
+      amountNum = 0;
+  pointsWrap.textContent = '';
+  secondsWrap.textContent = '';
+  var mark = document.createElement('h3');
+  mark.classList.add('text-center');
   btnStart.addEventListener('click', function () {
-    var amountNum = getRandomBetween(3, 5);
+    createZad();
+    setInterval(function () {
+      seconds++;
+      secondsWrap.textContent = seconds;
+    }, 1000);
+    btnStart.style.display = 'none';
+  });
+  btnNext.addEventListener('click', function () {
+    sumFooter.innerHTML = '';
+    answer.value = '';
+    mark.remove();
+    createZad();
+    btnNext.style.display = 'none';
+  });
+
+  function createZad() {
+    amountNum = getRandomBetween(3, 5);
     numbers = [];
     zadacha.textContent = '';
 
@@ -5148,32 +5175,53 @@ var sum = function sum() {
 
       var number = getRandomBetween(1, 9999);
       numbers.push(number);
+      var oneStep = document.createElement('div');
+      oneStep.setAttribute('id', i);
+      oneStep.classList.add('d-flex');
+      sumFooter.classList.remove('d-flex');
+      sumFooter.style.display = "none";
 
       if (i == 0) {
         trueAnswer = number;
       } else if (znak == 2) {
+        oneStep.innerHTML = "\n                <span class=\"pr-3\">".concat(i, ")</span>\n                <span class=\"pr-2 pt-2\">+</span>\n                <span>\n                    <div class=\"text-right\">").concat(trueAnswer, "</div>\n                    <div class=\"text-right\">").concat(number, "</div>\n                    <hr style=\"margin:0\">\n                    <div class=\"text-right\">").concat(trueAnswer + number, "</div>\n                </span>\n                ");
+        sumFooter.append(oneStep);
         trueAnswer = trueAnswer + number;
       } else {
+        oneStep.innerHTML = "\n                <span class=\"pr-3\">".concat(i, ")</span>\n                <span class=\"pr-2 pt-2\">-</span>\n                <span>\n                    <div class=\"text-right\">").concat(trueAnswer, "</div>\n                    <div class=\"text-right\">").concat(number, "</div>\n                    <hr style=\"margin:0\">\n                    <div class=\"text-right\">").concat(trueAnswer - number, "</div>\n                </span>\n                ");
+        sumFooter.append(oneStep);
         trueAnswer = trueAnswer - number;
       }
     }
 
-    btnStart.textContent = "Дальше";
     console.log(numbers);
     console.log(trueAnswer);
     numbers.forEach(function (number) {
       zadacha.textContent += "".concat(number, " ");
     });
-  });
+  }
+
   btnAnswer.addEventListener('click', function () {
     var userAnswer = answer.value;
 
     if (userAnswer == trueAnswer) {
-      console.log('Все верно!');
+      mark.textContent = 'Все верно!';
+      sumBody.appendChild(mark);
+      btnNext.style.display = '';
+      points++;
+      pointsWrap.textContent = points;
     } else {
-      console.log('Ошибка!');
+      mark.textContent = 'Ошибка!';
+      sumBody.appendChild(mark);
     }
+
+    stepSol();
   });
+
+  function stepSol() {
+    sumFooter.style.display = "";
+    sumFooter.classList.add('d-flex');
+  }
 
   function getRandomBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
