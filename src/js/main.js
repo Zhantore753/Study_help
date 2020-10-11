@@ -18,6 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     modal('.auth-btn', '.auth-modal');
     modal('.exit', '.exit-modal');
     modal('.settings', '.settings-modal');
+    modal('#result-sum', '.result-modal');
     settings();
     umnoj();
     sum();
