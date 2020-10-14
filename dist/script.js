@@ -4859,6 +4859,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/settings */ "./src/js/modules/settings.js");
 /* harmony import */ var _modules_umnoj__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/umnoj */ "./src/js/modules/umnoj.js");
 /* harmony import */ var _modules_sum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/sum */ "./src/js/modules/sum.js");
+/* harmony import */ var _modules_delen__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/delen */ "./src/js/modules/delen.js");
+
 
 
 
@@ -4883,6 +4885,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  Object(_modules_delen__WEBPACK_IMPORTED_MODULE_8__["default"])();
 });
 
 /***/ }),
@@ -5081,6 +5084,142 @@ var loadCards = function loadCards(wrapper) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (loadCards);
+
+/***/ }),
+
+/***/ "./src/js/modules/delen.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/delen.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+var delen = function delen() {
+  try {
+    var btnStart = document.querySelector('#start-delen'),
+        btnNext = document.querySelector('#next-delen'),
+        btnRes = document.querySelector('#result-delen'),
+        pointsWrap = document.querySelector('.delen_points'),
+        secondsWrap = document.querySelector('.seconds'),
+        zadacha = document.querySelector('.delen_zadacha'),
+        answer = document.querySelector('.delen_answer'),
+        btnAnswer = document.querySelector('#delen-otvet'),
+        delenBody = document.querySelector('.delen_body'),
+        delenFooter = document.querySelector('.delen_footer'),
+        effWrap = document.querySelector('[data-eff]'),
+        pointsWrapRes = document.querySelector('[data-points]'),
+        secondsWrapRes = document.querySelector('[data-sec]');
+    var numbers = [],
+        trueAnswer = 0,
+        points = 0,
+        seconds = 0,
+        amountNum = 0,
+        timerFunc;
+    pointsWrap.textContent = '';
+    secondsWrap.textContent = '';
+    var mark = document.createElement('h3');
+    mark.classList.add('text-center');
+    btnStart.addEventListener('click', function () {
+      btnAnswer.style.display = "";
+      createZad();
+      timerFunc = setInterval(function () {
+        seconds++;
+        secondsWrap.textContent = seconds;
+      }, 1000);
+      btnStart.style.display = 'none';
+    });
+    btnNext.addEventListener('click', function () {
+      btnAnswer.style.display = "";
+      delenFooter.innerHTML = '';
+      answer.value = '';
+      mark.remove();
+      createZad();
+      btnNext.style.display = 'none';
+    });
+
+    function createZad() {
+      amountNum = getRandomBetween(2, 2);
+      numbers = [];
+      zadacha.textContent = '';
+
+      for (var i = 0; i < amountNum; i++) {
+        if (i != 0) {
+          numbers.push('/');
+        }
+
+        var number = getRandomBetween(10, 999);
+        numbers.push(number);
+        var oneStep = document.createElement('div');
+        oneStep.setAttribute('id', i);
+        oneStep.classList.add('d-flex');
+        delenFooter.classList.remove('d-flex');
+        delenFooter.style.display = "none";
+
+        if (i == 0) {
+          trueAnswer = number;
+        } else {
+          oneStep.innerHTML = "\n                    <span class=\"pr-3\">".concat(i, ")</span>\n                    <span class=\"pr-2 pt-2\">/</span>\n                    <span>\n                        <div class=\"text-right\">").concat(trueAnswer, "</div>\n                        <div class=\"text-right\">").concat(number, "</div>\n                        <hr style=\"margin:0\">\n                        <div class=\"text-right\">").concat(trueAnswer / number, "</div>\n                    </span>\n                    ");
+          delenFooter.append(oneStep);
+          trueAnswer = trueAnswer / number;
+        }
+      }
+
+      console.log(numbers);
+      console.log(trueAnswer);
+      numbers.forEach(function (number) {
+        zadacha.textContent += "".concat(number, " ");
+      });
+    }
+
+    btnAnswer.addEventListener('click', function () {
+      var userAnswer = answer.value;
+
+      if (userAnswer == trueAnswer) {
+        mark.textContent = 'Все верно!';
+        delenBody.appendChild(mark);
+        btnNext.style.display = '';
+        points++;
+        pointsWrap.textContent = points;
+      } else {
+        mark.textContent = 'Ошибка!';
+        delenBody.appendChild(mark);
+        clearInterval(timerFunc);
+        pointsWrapRes.textContent = points;
+        secondsWrapRes.textContent = seconds;
+        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        btnRes.style.display = '';
+      }
+
+      btnAnswer.style.display = "none";
+      stepSol();
+    });
+
+    function stepSol() {
+      delenFooter.style.display = "";
+      delenFooter.classList.add('d-flex');
+    }
+
+    function getRandomBetween(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (delen);
 
 /***/ }),
 
@@ -5505,8 +5644,6 @@ var umnoj = function umnoj() {
       zadacha.textContent = '';
 
       for (var i = 0; i < amountNum; i++) {
-        var znak = getRandomBetween(1, 2);
-
         if (i != 0) {
           numbers.push('*');
         }
@@ -5566,9 +5703,7 @@ var umnoj = function umnoj() {
     function getRandomBetween(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (umnoj);

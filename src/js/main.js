@@ -6,6 +6,7 @@ import auth from './modules/auth';
 import settings from './modules/settings';
 import umnoj from './modules/umnoj';
 import sum from './modules/sum';
+import delen from './modules/delen';
 
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
@@ -23,4 +24,5 @@ window.addEventListener('DOMContentLoaded', () => {
     settings();
     umnoj();
     sum();
+    delen();
 });

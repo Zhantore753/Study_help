@@ -1,15 +1,15 @@
-const umnoj = () => {
+const delen = ()=>{
     try {
-        const btnStart = document.querySelector('#start-umnoj'),
-        btnNext = document.querySelector('#next-umnoj'),
-        btnRes = document.querySelector('#result-umnoj'),
-        pointsWrap = document.querySelector('.umnoj_points'),
+        const btnStart = document.querySelector('#start-delen'),
+        btnNext = document.querySelector('#next-delen'),
+        btnRes = document.querySelector('#result-delen'),
+        pointsWrap = document.querySelector('.delen_points'),
         secondsWrap = document.querySelector('.seconds'),
-        zadacha = document.querySelector('.umnoj_zadacha'),
-        answer = document.querySelector('.umnoj_answer'),
-        btnAnswer = document.querySelector('#umnoj-otvet'),
-        umnojBody = document.querySelector('.umnoj_body'),
-        umnojFooter = document.querySelector('.umnoj_footer'),
+        zadacha = document.querySelector('.delen_zadacha'),
+        answer = document.querySelector('.delen_answer'),
+        btnAnswer = document.querySelector('#delen-otvet'),
+        delenBody = document.querySelector('.delen_body'),
+        delenFooter = document.querySelector('.delen_footer'),
         effWrap = document.querySelector('[data-eff]'),
         pointsWrapRes = document.querySelector('[data-points]'),
         secondsWrapRes = document.querySelector('[data-sec]');
@@ -38,7 +38,7 @@ const umnoj = () => {
 
         btnNext.addEventListener('click', ()=>{
             btnAnswer.style.display = "";
-            umnojFooter.innerHTML = '';
+            delenFooter.innerHTML = '';
             answer.value = '';
             mark.remove();
             createZad();
@@ -46,35 +46,35 @@ const umnoj = () => {
         });
 
         function createZad(){
-            amountNum = getRandomBetween(2, 3);
+            amountNum = getRandomBetween(2, 2);
             numbers = [];
             zadacha.textContent = '';
             for (let i = 0; i < amountNum; i++) {
                 if (i != 0) {
-                    numbers.push('*');
+                    numbers.push('/');
                 }
                 let number = getRandomBetween(10, 999);
                 numbers.push(number);
                 let oneStep = document.createElement('div');
                 oneStep.setAttribute('id', i);
                 oneStep.classList.add('d-flex');
-                umnojFooter.classList.remove('d-flex');
-                umnojFooter.style.display = "none";
+                delenFooter.classList.remove('d-flex');
+                delenFooter.style.display = "none";
                 if (i == 0) {
                     trueAnswer = number;
                 } else {
                     oneStep.innerHTML = `
                     <span class="pr-3">${i})</span>
-                    <span class="pr-2 pt-2">*</span>
+                    <span class="pr-2 pt-2">/</span>
                     <span>
                         <div class="text-right">${trueAnswer}</div>
                         <div class="text-right">${number}</div>
                         <hr style="margin:0">
-                        <div class="text-right">${trueAnswer * number}</div>
+                        <div class="text-right">${trueAnswer / number}</div>
                     </span>
                     `;
-                    umnojFooter.append(oneStep);
-                    trueAnswer = trueAnswer * number;
+                    delenFooter.append(oneStep);
+                    trueAnswer = trueAnswer / number;
                 }
             }
             console.log(numbers);
@@ -88,13 +88,13 @@ const umnoj = () => {
             let userAnswer = answer.value;
             if (userAnswer == trueAnswer) {
                 mark.textContent = 'Все верно!';
-                umnojBody.appendChild(mark);
+                delenBody.appendChild(mark);
                 btnNext.style.display = '';
                 points++;
                 pointsWrap.textContent = points;
             } else {
                 mark.textContent = 'Ошибка!';
-                umnojBody.appendChild(mark);
+                delenBody.appendChild(mark);
                 clearInterval(timerFunc);
                 pointsWrapRes.textContent = points;
                 secondsWrapRes.textContent = seconds;
@@ -106,14 +106,16 @@ const umnoj = () => {
         });
 
         function stepSol(){
-            umnojFooter.style.display = "";
-            umnojFooter.classList.add('d-flex');
+            delenFooter.style.display = "";
+            delenFooter.classList.add('d-flex');
         }
 
         function getRandomBetween(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
     } catch (e) {
+        console.log(e);
     }
-}
-export default umnoj;
+};
+
+export default delen;

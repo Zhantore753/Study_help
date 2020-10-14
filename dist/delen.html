@@ -45,6 +45,44 @@
             </div>
         </div>
     </nav>
+
+    <section class="delen">
+        <div class="container">
+            <div class="delen_inner">
+                <div class="delen_head d-flex justify-content-between">
+                    <button class="btn btn-secondary" id="start-delen">Старт</button>
+                    <div class="points">
+                        <span>Ваши очки:</span>
+                        <span class="delen_points">0</span>
+                    </div>
+                    <div class="timer">
+                        <span>Времени прошло:</span>
+                        <span class="seconds">0</span>
+                    </div>
+                </div>
+                <h1 class="text-center">
+                    Игра Умножение
+                </h1>
+                <div class="delen_body mt-3 align-middle">
+                    <div class="wrap text-center align-middle">
+                        <span class="delen_zadacha">
+                            Нажмите СТАРТ чтобы начать игру
+                        </span>
+                        <span>=</span>
+                        <input class="delen_answer" type="num">
+                        <button class="btn btn-success" id="delen-otvet" style="display: none;">Ответить</button>
+                        <button class="btn btn-secondary" id="next-delen" style="display: none;">Дальше</button>
+                        <button class="btn btn-primary" id="result-delen" style="display: none;">Результаты</button>
+                    </div>
+                </div>
+                <div class="delen_footer mt-3 align-middle d-flex justify-content-around">
+                     
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <div class="container">
         <div class="modal fade auth-modal" id="exampleModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="false">
@@ -127,6 +165,34 @@
                             аккаунта</button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="modal result-modal" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Результаты</h5>
+                  <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex">
+                        <p>Очков: </p><span data-points>10</span>
+                    </div>
+                    <div class="d-flex">
+                        <p>Времени: </p><span data-sec>200</span>
+                    </div>
+                    <div class="d-flex">
+                        <p>Коэффициент эффективности: </p><span data-eff>0,05</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success">Поделиться результатом</button>
+                  <button type="button" class="btn btn-danger close-btn" data-dismiss="modal">Закрыть</button>
+                </div>
+              </div>
             </div>
         </div>
 
