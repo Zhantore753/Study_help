@@ -46,33 +46,42 @@
             </div>
         </div>
     </nav>
-    <div class="container1">
-        <div class="container__inner1">
-            <div class="app">
-                <div class="task">
-                    <h2 id="firstNumber" class="number"></h2>
-                    <h2 id="secondNumber" class="number"></h2>
+    <section class="umnoj">
+        <div class="container">
+            <div class="umnoj_inner">
+                <div class="umnoj_head d-flex justify-content-between">
+                    <button class="btn btn-secondary" id="start-umnoj">Старт</button>
+                    <div class="points">
+                        <span>Ваши очки:</span>
+                        <span class="umnoj_points">0</span>
+                    </div>
+                    <div class="timer">
+                        <span>Времени прошло:</span>
+                        <span class="seconds">0</span>
+                    </div>
                 </div>
-                <div class="solution">
+                <h1 class="text-center">
+                    Игра Умножение
+                </h1>
+                <div class="umnoj_body mt-3 align-middle">
+                    <div class="wrap text-center align-middle">
+                        <span class="umnoj_zadacha">
+                            Нажмите СТАРТ чтобы начать игру
+                        </span>
+                        <span>=</span>
+                        <input class="umnoj_answer" type="num">
+                        <button class="btn btn-success" id="umnoj-otvet" style="display: none;">Ответить</button>
+                        <button class="btn btn-secondary" id="next-umnoj" style="display: none;">Дальше</button>
+                        <button class="btn btn-primary" id="result-umnoj" style="display: none;">Результаты</button>
+                    </div>
+                </div>
+                <div class="umnoj_footer mt-3 align-middle d-flex justify-content-around">
+                     
+                </div>
+            </div>
 
-                </div>
-                <div class="answer">
-                    <h2 id="thirdNumber" class="number"></h2>
-                </div>
-            </div>
-            <div class="menu">
-                <button class="giveAnswer">Ответ</button>
-                <button class="giveSolution">Решение поэтапно</button>
-            </div>
         </div>
-        <div class="modal off">
-            <h2 class="modal__dialog"></h2>
-            <button class="step1 on-btn">Дальше</button>
-            <button class="step2 off">Дальше</button>
-            <button class="step3 off">Дальше</button>
-            <button class="step4 off">Дальше</button>
-        </div>
-    </div>
+    </section>
 
     <div class="container">
         <div class="modal fade auth-modal" id="exampleModal" tabindex="-1" role="dialog"
@@ -156,6 +165,34 @@
                             аккаунта</button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="modal result-modal" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Результаты</h5>
+                  <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex">
+                        <p>Очков: </p><span data-points>10</span>
+                    </div>
+                    <div class="d-flex">
+                        <p>Времени: </p><span data-sec>200</span>
+                    </div>
+                    <div class="d-flex">
+                        <p>Коэффициент эффективности: </p><span data-eff>0,05</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success">Поделиться результатом</button>
+                  <button type="button" class="btn btn-danger close-btn" data-dismiss="modal">Закрыть</button>
+                </div>
+              </div>
             </div>
         </div>
 

@@ -4879,6 +4879,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.exit', '.exit-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.settings', '.settings-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-sum', '.result-modal');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-umnoj', '.result-modal');
   Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
@@ -5447,190 +5448,127 @@ var sum = function sum() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 
 var umnoj = function umnoj() {
   try {
-    var firstNumber = document.querySelector("#firstNumber"),
-        secondNumber = document.querySelector("#secondNumber"),
-        firstRandom = String(getRandomBetween(1, 9)),
-        secondRandom = String(getRandomBetween(1, 9)),
-        thirdRandom = String(getRandomBetween(1, 9)),
-        foursRandom = String(getRandomBetween(1, 9)),
-        firstValue = firstRandom + secondRandom,
-        secondValue = thirdRandom + foursRandom,
-        thirdNumber = document.querySelector("#thirdNumber"),
-        giveAnswer = document.querySelector(".giveAnswer"),
-        giveSolution = document.querySelector(".giveSolution"),
-        modal = document.querySelector(".modal"),
-        modalDialog = document.querySelector(".modal__dialog"),
-        answerTeg = document.querySelector(".answer"),
-        solDiv = document.querySelector(".solution"),
-        step1 = document.querySelector(".step1"),
-        step2 = document.querySelector(".step2"),
-        step3 = document.querySelector(".step3"),
-        step4 = document.querySelector(".step4");
-    var firstSol = 0;
-    var secondSol = 0;
-    var thirdSol = 0;
-    var foursSol = 0;
-    firstNumber.innerHTML = "\n    <span id=\"first\">".concat(firstRandom, "</span>\n    <span id=\"second\">").concat(secondRandom, "</span>\n");
-    secondNumber.innerHTML = "\n    <span id=\"third\">".concat(thirdRandom, "</span>\n    <span id=\"fours\">").concat(foursRandom, "</span>\n");
-    thirdNumber.innerHTML = "";
-    var arr = String(+firstValue * +secondValue);
+    var btnStart = document.querySelector('#start-umnoj'),
+        btnNext = document.querySelector('#next-umnoj'),
+        btnRes = document.querySelector('#result-umnoj'),
+        pointsWrap = document.querySelector('.umnoj_points'),
+        secondsWrap = document.querySelector('.seconds'),
+        zadacha = document.querySelector('.umnoj_zadacha'),
+        answer = document.querySelector('.umnoj_answer'),
+        btnAnswer = document.querySelector('#umnoj-otvet'),
+        umnojBody = document.querySelector('.umnoj_body'),
+        umnojFooter = document.querySelector('.umnoj_footer'),
+        effWrap = document.querySelector('[data-eff]'),
+        pointsWrapRes = document.querySelector('[data-points]'),
+        secondsWrapRes = document.querySelector('[data-sec]');
+    var numbers = [],
+        trueAnswer = 0,
+        points = 0,
+        seconds = 0,
+        amountNum = 0,
+        timerFunc;
+    pointsWrap.textContent = '';
+    secondsWrap.textContent = '';
+    var mark = document.createElement('h3');
+    mark.classList.add('text-center');
+    btnStart.addEventListener('click', function () {
+      btnAnswer.style.display = "";
+      createZad();
+      timerFunc = setInterval(function () {
+        seconds++;
+        secondsWrap.textContent = seconds;
+      }, 1000);
+      btnStart.style.display = 'none';
+    });
+    btnNext.addEventListener('click', function () {
+      btnAnswer.style.display = "";
+      umnojFooter.innerHTML = '';
+      answer.value = '';
+      mark.remove();
+      createZad();
+      btnNext.style.display = 'none';
+    });
 
-    for (var i = 0; i < arr.length; i++) {
-      var elem = arr[i].replace(/./g, "*");
-      thirdNumber.innerHTML += "\n        <span id=\"".concat(i, "\">").concat(elem, "</span>\n    ");
+    function createZad() {
+      amountNum = getRandomBetween(2, 3);
+      numbers = [];
+      zadacha.textContent = '';
+
+      for (var i = 0; i < amountNum; i++) {
+        var znak = getRandomBetween(1, 2);
+
+        if (i != 0) {
+          numbers.push('*');
+        }
+
+        var number = getRandomBetween(10, 999);
+        numbers.push(number);
+        var oneStep = document.createElement('div');
+        oneStep.setAttribute('id', i);
+        oneStep.classList.add('d-flex');
+        umnojFooter.classList.remove('d-flex');
+        umnojFooter.style.display = "none";
+
+        if (i == 0) {
+          trueAnswer = number;
+        } else {
+          oneStep.innerHTML = "\n                    <span class=\"pr-3\">".concat(i, ")</span>\n                    <span class=\"pr-2 pt-2\">*</span>\n                    <span>\n                        <div class=\"text-right\">").concat(trueAnswer, "</div>\n                        <div class=\"text-right\">").concat(number, "</div>\n                        <hr style=\"margin:0\">\n                        <div class=\"text-right\">").concat(trueAnswer * number, "</div>\n                    </span>\n                    ");
+          umnojFooter.append(oneStep);
+          trueAnswer = trueAnswer * number;
+        }
+      }
+
+      console.log(numbers);
+      console.log(trueAnswer);
+      numbers.forEach(function (number) {
+        zadacha.textContent += "".concat(number, " ");
+      });
     }
 
-    giveAnswer.addEventListener("click", function () {
-      thirdNumber.innerHTML = "";
-      var arr = String(+firstValue * +secondValue);
+    btnAnswer.addEventListener('click', function () {
+      var userAnswer = answer.value;
 
-      for (var _i = 0; _i < arr.length; _i++) {
-        thirdNumber.innerHTML += "\n        <span id=\"".concat(_i, "\">").concat(arr[_i], "</span>\n    ");
+      if (userAnswer == trueAnswer) {
+        mark.textContent = 'Все верно!';
+        umnojBody.appendChild(mark);
+        btnNext.style.display = '';
+        points++;
+        pointsWrap.textContent = points;
+      } else {
+        mark.textContent = 'Ошибка!';
+        umnojBody.appendChild(mark);
+        clearInterval(timerFunc);
+        pointsWrapRes.textContent = points;
+        secondsWrapRes.textContent = seconds;
+        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        btnRes.style.display = '';
       }
+
+      btnAnswer.style.display = "none";
+      stepSol();
     });
+
+    function stepSol() {
+      umnojFooter.style.display = "";
+      umnojFooter.classList.add('d-flex');
+    }
 
     function getRandomBetween(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
-
-    var first = document.querySelectorAll("#firstNumber span"),
-        second = document.querySelectorAll("#secondNumber span");
-    giveSolution.addEventListener("click", function () {
-      modal.classList.add("on");
-      modal.classList.remove("off");
-      var solution = foursRandom * secondRandom;
-      modalDialog.textContent = "".concat(foursRandom, " * ").concat(secondRandom, " = ").concat(solution);
-      first[1].classList.add("active");
-      second[1].classList.add("active");
-      solDiv.innerHTML = "\n    <h2 class=\"firstSol number\"></h2>\n  ";
-      var solDivIn = document.querySelector(".firstSol");
-      var arr = String(solution);
-
-      for (var _i2 = 0; _i2 < arr.length; _i2++) {
-        solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i2], "</span>\n    ");
-      }
-
-      firstSol = solution;
-    });
-    step1.addEventListener("click", function () {
-      var solution = foursRandom * firstRandom;
-      modalDialog.textContent = "".concat(foursRandom, " * ").concat(firstRandom, " = ").concat(solution);
-      first[1].classList.remove("active");
-      first[0].classList.add("active");
-      second[1].classList.add("active");
-      solDiv.innerHTML += "\n    <h2 class=\"secondSol number\">\n    </h2>\n  ";
-      var solDivInPrev = document.querySelectorAll(".firstSol span");
-      var solDivIn = document.querySelector(".secondSol");
-
-      for (var k = 0; k < solDivInPrev.length; k++) {
-        solDivInPrev[k].classList.remove("second-active");
-      }
-
-      var arr = String(solution);
-
-      for (var _i3 = 0; _i3 < arr.length; _i3++) {
-        solDivIn.innerHTML += "\n        <span class=\"second-active\">".concat(arr[_i3], "</span>\n    ");
-      }
-
-      solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
-      step1.classList.add("off");
-      step1.classList.remove("on-btn");
-      step2.classList.add("on-btn");
-      step2.classList.remove("off");
-      secondSol = solution;
-      secondSol += "0";
-    });
-    step2.addEventListener("click", function () {
-      var solution = thirdRandom * secondRandom;
-      modalDialog.textContent = "".concat(thirdRandom, " * ").concat(secondRandom, " = ").concat(solution);
-      first[1].classList.add("active");
-      first[0].classList.remove("active");
-      second[1].classList.remove("active");
-      second[0].classList.add("active");
-      solDiv.innerHTML += "\n      <h2 class=\"thirdSol number\"></h2>\n    ";
-      var solDivInPrev = document.querySelectorAll(".secondSol span");
-      var solDivIn = document.querySelector(".thirdSol");
-
-      for (var k = 0; k < solDivInPrev.length; k++) {
-        solDivInPrev[k].classList.remove("second-active");
-      }
-
-      var arr = String(solution);
-
-      for (var _i4 = 0; _i4 < arr.length; _i4++) {
-        solDivIn.innerHTML += "\n          <span class=\"second-active\">".concat(arr[_i4], "</span>\n      ");
-      }
-
-      solDivIn.innerHTML += "\n    <span class=\"third-active\">0</span>\n  ";
-      step2.classList.add("off");
-      step2.classList.remove("on-btn");
-      step3.classList.add("on-btn");
-      step3.classList.remove("off");
-      thirdSol = solution;
-      thirdSol += "0";
-    });
-    step3.addEventListener("click", function () {
-      var solution = thirdRandom * firstRandom;
-      modalDialog.textContent = "".concat(thirdRandom, " * ").concat(firstRandom, " = ").concat(solution);
-      first[0].classList.add("active");
-      first[1].classList.remove("active");
-      second[1].classList.remove("active");
-      second[0].classList.add("active");
-      solDiv.innerHTML += "\n        <h2 class=\"foursSol number\"></h2>\n      ";
-      var solDivInPrev = document.querySelectorAll(".thirdSol span");
-      var solDivIn = document.querySelector(".foursSol");
-
-      for (var k = 0; k < solDivInPrev.length; k++) {
-        solDivInPrev[k].classList.remove("second-active");
-      }
-
-      var arr = String(solution);
-
-      for (var _i5 = 0; _i5 < arr.length; _i5++) {
-        solDivIn.innerHTML += "\n            <span class=\"second-active\">".concat(arr[_i5], "</span>\n        ");
-      }
-
-      solDivIn.innerHTML += "\n      <span class=\"third-active\">0</span>\n      <span class=\"third-active\">0</span>\n    ";
-      step3.classList.add("off");
-      step3.classList.remove("on-btn");
-      step4.classList.add("on-btn");
-      step4.classList.remove("off");
-      foursSol = solution;
-      foursSol += "00";
-    });
-    step4.addEventListener("click", function () {
-      var solution = +firstSol + +secondSol + +thirdSol + +foursSol;
-      modalDialog.textContent = "".concat(firstSol, " + ").concat(secondSol, " + ").concat(thirdSol, " + ").concat(foursSol, " = ").concat(solution);
-      first[0].classList.remove("active");
-      first[1].classList.remove("active");
-      second[1].classList.remove("active");
-      second[0].classList.remove("active");
-      var solDivInPrev = document.querySelectorAll(".foursSol span");
-
-      for (var k = 0; k < solDivInPrev.length; k++) {
-        solDivInPrev[k].classList.remove("second-active");
-      }
-
-      thirdNumber.innerHTML = "";
-      var arr = String(+firstValue * +secondValue);
-
-      for (var _i6 = 0; _i6 < arr.length; _i6++) {
-        thirdNumber.innerHTML += "\n        <span>".concat(arr[_i6], "</span>\n    ");
-      }
-
-      thirdNumber.classList.add("second-active");
-      solDiv.classList.add("active");
-      step4.classList.remove("on-btn");
-      step4.classList.add("off");
-    });
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (umnoj);
