@@ -1,4 +1,5 @@
 const uravn = ()=>{
+    try{
         const btnStart = document.querySelector('#start-uravn'),
         btnNext = document.querySelector('#next-uravn'),
         btnRes = document.querySelector('#result-uravn'),
@@ -63,69 +64,8 @@ const uravn = ()=>{
                 }
                 let number = getRandomBetween(1, 9999);
                 numbers.push(number);
-                let oneStep = document.createElement('div');
-                oneStep.setAttribute('id', i);
-                oneStep.classList.add('d-flex');
-                uravnFooter.classList.remove('d-flex');
-                uravnFooter.style.display = "none";
-            //     if (i == 0) {
-            //         trueAnswer = number;
-            //     } else if (znak == 1) {
-            //         oneStep.innerHTML = `
-            //         <span class="pr-3">${i})</span>
-            //         <span class="pr-2 pt-2">+</span>
-            //         <span>
-            //             <div class="text-right">${trueAnswer}</div>
-            //             <div class="text-right">${number}</div>
-            //             <hr style="margin:0">
-            //             <div class="text-right">${trueAnswer + number}</div>
-            //         </span>
-            //         `;
-            //         uravnFooter.append(oneStep);
-            //         trueAnswer = trueAnswer + number;
-            //     } else if(znak == 2) {
-            //         oneStep.innerHTML = `
-            //         <span class="pr-3">${i})</span>
-            //         <span class="pr-2 pt-2">-</span>
-            //         <span>
-            //             <div class="text-right">${trueAnswer}</div>
-            //             <div class="text-right">${number}</div>
-            //             <hr style="margin:0">
-            //             <div class="text-right">${trueAnswer - number}</div>
-            //         </span>
-            //         `;
-            //         uravnFooter.append(oneStep);
-            //         trueAnswer = trueAnswer - number;
-            //     } else if(znak == 3){
-            //         oneStep.innerHTML = `
-            //         <span class="pr-3">${i})</span>
-            //         <span class="pr-2 pt-2">*</span>
-            //         <span>
-            //             <div class="text-right">${trueAnswer}</div>
-            //             <div class="text-right">${number}</div>
-            //             <hr style="margin:0">
-            //             <div class="text-right">${trueAnswer * number}</div>
-            //         </span>
-            //         `;
-            //         uravnFooter.append(oneStep);
-            //         trueAnswer = trueAnswer * number;
-            //     } else {
-            //         oneStep.innerHTML = `
-            //         <span class="pr-3">${i})</span>
-            //         <span class="pr-2 pt-2">/</span>
-            //         <span>
-            //             <div class="text-right">${trueAnswer}</div>
-            //             <div class="text-right">${number}</div>
-            //             <hr style="margin:0">
-            //             <div class="text-right">${trueAnswer / number}</div>
-            //         </span>
-            //         `;
-            //         uravnFooter.append(oneStep);
-            //         trueAnswer = trueAnswer / number;
-            //     }
             }
             console.log(numbers);
-            // console.log(trueAnswer);
             numbers.forEach(number => {
                 zadacha.textContent += `${number} `;
             });
@@ -133,24 +73,85 @@ const uravn = ()=>{
         }
 
         const soluton = function(){
+            let counter = 1;
             for(let i = 0; i < numbers.length; i++){
+                let oneStep = document.createElement('div');
+                    
+                oneStep.setAttribute('id', i);
+                oneStep.classList.add('d-flex');
+                uravnFooter.classList.remove('d-flex');
+                uravnFooter.style.display = "none";
                 if(numbers[i] == '*'){
                     let solvedNum = numbers[i-1] * numbers[i+1];
+                    oneStep.innerHTML = `
+                        <span class="pr-3">${counter})</span>
+                        <span class="pr-2 pt-2">*</span>
+                        <span>
+                            <div class="text-right">${numbers[i - 1]}</div>
+                            <div class="text-right">${numbers[i + 1]}</div>
+                            <hr style="margin:0">
+                            <div class="text-right">${solvedNum}</div>
+                        </span>
+                    `;
+                    uravnFooter.append(oneStep);
+                    counter++;
                     numbers.splice(i-1, 3, solvedNum);
                     i-=2;
                 }else if(numbers[i] == '/') {
                     let solvedNum = numbers[i-1] / numbers[i+1];
+                    oneStep.innerHTML = `
+                        <span class="pr-3">${counter})</span>
+                        <span class="pr-2 pt-2">/</span>
+                        <span>
+                            <div class="text-right">${numbers[i - 1]}</div>
+                            <div class="text-right">${numbers[i + 1]}</div>
+                            <hr style="margin:0">
+                            <div class="text-right">${solvedNum}</div>
+                        </span>
+                    `;
+                    uravnFooter.append(oneStep);
+                    counter++;
                     numbers.splice(i-1, 3, solvedNum);
                     i-=2;
                 }
             }
             for(let i = 0; i < numbers.length; i++){
+                let oneStep = document.createElement('div');
+                    
+                oneStep.setAttribute('id', i);
+                oneStep.classList.add('d-flex');
+                uravnFooter.classList.remove('d-flex');
+                uravnFooter.style.display = "none";
                 if(numbers[i] == '-'){
                     let solvedNum = numbers[i-1] - numbers[i+1];
+                    oneStep.innerHTML = `
+                        <span class="pr-3">${counter})</span>
+                        <span class="pr-2 pt-2">-</span>
+                        <span>
+                            <div class="text-right">${numbers[i - 1]}</div>
+                            <div class="text-right">${numbers[i + 1]}</div>
+                            <hr style="margin:0">
+                            <div class="text-right">${solvedNum}</div>
+                        </span>
+                    `;
+                    uravnFooter.append(oneStep);
+                    counter++;
                     numbers.splice(i-1, 3, solvedNum);
                     i-=2;
                 }else if(numbers[i] == '+') {
                     let solvedNum = numbers[i-1] + numbers[i+1];
+                    oneStep.innerHTML = `
+                        <span class="pr-3">${counter})</span>
+                        <span class="pr-2 pt-2">+</span>
+                        <span>
+                            <div class="text-right">${numbers[i - 1]}</div>
+                            <div class="text-right">${numbers[i + 1]}</div>
+                            <hr style="margin:0">
+                            <div class="text-right">${solvedNum}</div>
+                        </span>
+                    `;
+                    uravnFooter.append(oneStep);
+                    counter++;
                     numbers.splice(i-1, 3, solvedNum);
                     i-=2;
                 }
@@ -189,5 +190,6 @@ const uravn = ()=>{
         function getRandomBetween(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
+    } catch(e){}
 };
 export default uravn;

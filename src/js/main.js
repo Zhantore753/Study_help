@@ -22,6 +22,8 @@ window.addEventListener('DOMContentLoaded', () => {
     modal('.settings', '.settings-modal');
     modal('#result-sum', '.result-modal');
     modal('#result-umnoj', '.result-modal');
+    modal('#result-delen', '.result-modal');
+    modal('#result-uravn', '.result-modal');
     settings();
     umnoj();
     sum();

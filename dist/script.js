@@ -4962,6 +4962,8 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.settings', '.settings-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-sum', '.result-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-umnoj', '.result-modal');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-delen', '.result-modal');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-uravn', '.result-modal');
   Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
@@ -5798,213 +5800,187 @@ var umnoj = function umnoj() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.splice */ "./node_modules/core-js/modules/es.array.splice.js");
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
-/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.splice */ "./node_modules/core-js/modules/es.array.splice.js");
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
 
 var uravn = function uravn() {
-  var btnStart = document.querySelector('#start-uravn'),
-      btnNext = document.querySelector('#next-uravn'),
-      btnRes = document.querySelector('#result-uravn'),
-      pointsWrap = document.querySelector('.uravn_points'),
-      secondsWrap = document.querySelector('.seconds'),
-      zadacha = document.querySelector('.uravn_zadacha'),
-      answer = document.querySelector('.uravn_answer'),
-      btnAnswer = document.querySelector('#uravn-otvet'),
-      uravnBody = document.querySelector('.uravn_body'),
-      uravnFooter = document.querySelector('.uravn_footer'),
-      effWrap = document.querySelector('[data-eff]'),
-      pointsWrapRes = document.querySelector('[data-points]'),
-      secondsWrapRes = document.querySelector('[data-sec]');
-  var numbers = [],
-      trueAnswer = 0,
-      points = 0,
-      seconds = 0,
-      amountNum = 0,
-      timerFunc;
-  pointsWrap.textContent = '';
-  secondsWrap.textContent = '';
-  var mark = document.createElement('h3');
-  mark.classList.add('text-center');
-  btnStart.addEventListener('click', function () {
-    btnAnswer.style.display = "";
-    createZad();
-    timerFunc = setInterval(function () {
-      seconds++;
-      secondsWrap.textContent = seconds;
-    }, 1000);
-    btnStart.style.display = 'none';
-  });
-  btnNext.addEventListener('click', function () {
-    btnAnswer.style.display = "";
-    uravnFooter.innerHTML = '';
-    answer.value = '';
-    mark.remove();
-    createZad();
-    btnNext.style.display = 'none';
-  });
+  try {
+    var btnStart = document.querySelector('#start-uravn'),
+        btnNext = document.querySelector('#next-uravn'),
+        btnRes = document.querySelector('#result-uravn'),
+        pointsWrap = document.querySelector('.uravn_points'),
+        secondsWrap = document.querySelector('.seconds'),
+        zadacha = document.querySelector('.uravn_zadacha'),
+        answer = document.querySelector('.uravn_answer'),
+        btnAnswer = document.querySelector('#uravn-otvet'),
+        uravnBody = document.querySelector('.uravn_body'),
+        uravnFooter = document.querySelector('.uravn_footer'),
+        effWrap = document.querySelector('[data-eff]'),
+        pointsWrapRes = document.querySelector('[data-points]'),
+        secondsWrapRes = document.querySelector('[data-sec]');
+    var numbers = [],
+        trueAnswer = 0,
+        points = 0,
+        seconds = 0,
+        amountNum = 0,
+        timerFunc;
+    pointsWrap.textContent = '';
+    secondsWrap.textContent = '';
+    var mark = document.createElement('h3');
+    mark.classList.add('text-center');
+    btnStart.addEventListener('click', function () {
+      btnAnswer.style.display = "";
+      createZad();
+      timerFunc = setInterval(function () {
+        seconds++;
+        secondsWrap.textContent = seconds;
+      }, 1000);
+      btnStart.style.display = 'none';
+    });
+    btnNext.addEventListener('click', function () {
+      btnAnswer.style.display = "";
+      uravnFooter.innerHTML = '';
+      answer.value = '';
+      mark.remove();
+      createZad();
+      btnNext.style.display = 'none';
+    });
 
-  function createZad() {
-    amountNum = getRandomBetween(3, 5);
-    numbers = [];
-    zadacha.textContent = '';
+    function createZad() {
+      amountNum = getRandomBetween(3, 5);
+      numbers = [];
+      zadacha.textContent = '';
 
-    for (var i = 0; i < amountNum; i++) {
-      var znak = getRandomBetween(1, 4);
+      for (var i = 0; i < amountNum; i++) {
+        var znak = getRandomBetween(1, 4);
 
-      if (i != 0) {
-        if (znak == 1) {
-          numbers.push('+');
-        } else if (znak == 2) {
-          numbers.push('-');
-        } else if (znak == 3) {
-          numbers.push('*');
-        } else {
-          numbers.push('/');
+        if (i != 0) {
+          if (znak == 1) {
+            numbers.push('+');
+          } else if (znak == 2) {
+            numbers.push('-');
+          } else if (znak == 3) {
+            numbers.push('*');
+          } else {
+            numbers.push('/');
+          }
+        }
+
+        var number = getRandomBetween(1, 9999);
+        numbers.push(number);
+      }
+
+      console.log(numbers);
+      numbers.forEach(function (number) {
+        zadacha.textContent += "".concat(number, " ");
+      });
+      soluton();
+    }
+
+    var soluton = function soluton() {
+      var counter = 1;
+
+      for (var i = 0; i < numbers.length; i++) {
+        var oneStep = document.createElement('div');
+        oneStep.setAttribute('id', i);
+        oneStep.classList.add('d-flex');
+        uravnFooter.classList.remove('d-flex');
+        uravnFooter.style.display = "none";
+
+        if (numbers[i] == '*') {
+          var solvedNum = numbers[i - 1] * numbers[i + 1];
+          oneStep.innerHTML = "\n                        <span class=\"pr-3\">".concat(counter, ")</span>\n                        <span class=\"pr-2 pt-2\">*</span>\n                        <span>\n                            <div class=\"text-right\">").concat(numbers[i - 1], "</div>\n                            <div class=\"text-right\">").concat(numbers[i + 1], "</div>\n                            <hr style=\"margin:0\">\n                            <div class=\"text-right\">").concat(solvedNum, "</div>\n                        </span>\n                    ");
+          uravnFooter.append(oneStep);
+          counter++;
+          numbers.splice(i - 1, 3, solvedNum);
+          i -= 2;
+        } else if (numbers[i] == '/') {
+          var _solvedNum = numbers[i - 1] / numbers[i + 1];
+
+          oneStep.innerHTML = "\n                        <span class=\"pr-3\">".concat(counter, ")</span>\n                        <span class=\"pr-2 pt-2\">/</span>\n                        <span>\n                            <div class=\"text-right\">").concat(numbers[i - 1], "</div>\n                            <div class=\"text-right\">").concat(numbers[i + 1], "</div>\n                            <hr style=\"margin:0\">\n                            <div class=\"text-right\">").concat(_solvedNum, "</div>\n                        </span>\n                    ");
+          uravnFooter.append(oneStep);
+          counter++;
+          numbers.splice(i - 1, 3, _solvedNum);
+          i -= 2;
         }
       }
 
-      var number = getRandomBetween(1, 9999);
-      numbers.push(number);
-      var oneStep = document.createElement('div');
-      oneStep.setAttribute('id', i);
-      oneStep.classList.add('d-flex');
-      uravnFooter.classList.remove('d-flex');
-      uravnFooter.style.display = "none"; //     if (i == 0) {
-      //         trueAnswer = number;
-      //     } else if (znak == 1) {
-      //         oneStep.innerHTML = `
-      //         <span class="pr-3">${i})</span>
-      //         <span class="pr-2 pt-2">+</span>
-      //         <span>
-      //             <div class="text-right">${trueAnswer}</div>
-      //             <div class="text-right">${number}</div>
-      //             <hr style="margin:0">
-      //             <div class="text-right">${trueAnswer + number}</div>
-      //         </span>
-      //         `;
-      //         uravnFooter.append(oneStep);
-      //         trueAnswer = trueAnswer + number;
-      //     } else if(znak == 2) {
-      //         oneStep.innerHTML = `
-      //         <span class="pr-3">${i})</span>
-      //         <span class="pr-2 pt-2">-</span>
-      //         <span>
-      //             <div class="text-right">${trueAnswer}</div>
-      //             <div class="text-right">${number}</div>
-      //             <hr style="margin:0">
-      //             <div class="text-right">${trueAnswer - number}</div>
-      //         </span>
-      //         `;
-      //         uravnFooter.append(oneStep);
-      //         trueAnswer = trueAnswer - number;
-      //     } else if(znak == 3){
-      //         oneStep.innerHTML = `
-      //         <span class="pr-3">${i})</span>
-      //         <span class="pr-2 pt-2">*</span>
-      //         <span>
-      //             <div class="text-right">${trueAnswer}</div>
-      //             <div class="text-right">${number}</div>
-      //             <hr style="margin:0">
-      //             <div class="text-right">${trueAnswer * number}</div>
-      //         </span>
-      //         `;
-      //         uravnFooter.append(oneStep);
-      //         trueAnswer = trueAnswer * number;
-      //     } else {
-      //         oneStep.innerHTML = `
-      //         <span class="pr-3">${i})</span>
-      //         <span class="pr-2 pt-2">/</span>
-      //         <span>
-      //             <div class="text-right">${trueAnswer}</div>
-      //             <div class="text-right">${number}</div>
-      //             <hr style="margin:0">
-      //             <div class="text-right">${trueAnswer / number}</div>
-      //         </span>
-      //         `;
-      //         uravnFooter.append(oneStep);
-      //         trueAnswer = trueAnswer / number;
-      //     }
-    }
+      for (var _i = 0; _i < numbers.length; _i++) {
+        var _oneStep = document.createElement('div');
 
-    console.log(numbers); // console.log(trueAnswer);
+        _oneStep.setAttribute('id', _i);
 
-    numbers.forEach(function (number) {
-      zadacha.textContent += "".concat(number, " ");
+        _oneStep.classList.add('d-flex');
+
+        uravnFooter.classList.remove('d-flex');
+        uravnFooter.style.display = "none";
+
+        if (numbers[_i] == '-') {
+          var _solvedNum2 = numbers[_i - 1] - numbers[_i + 1];
+
+          _oneStep.innerHTML = "\n                        <span class=\"pr-3\">".concat(counter, ")</span>\n                        <span class=\"pr-2 pt-2\">-</span>\n                        <span>\n                            <div class=\"text-right\">").concat(numbers[_i - 1], "</div>\n                            <div class=\"text-right\">").concat(numbers[_i + 1], "</div>\n                            <hr style=\"margin:0\">\n                            <div class=\"text-right\">").concat(_solvedNum2, "</div>\n                        </span>\n                    ");
+          uravnFooter.append(_oneStep);
+          counter++;
+          numbers.splice(_i - 1, 3, _solvedNum2);
+          _i -= 2;
+        } else if (numbers[_i] == '+') {
+          var _solvedNum3 = numbers[_i - 1] + numbers[_i + 1];
+
+          _oneStep.innerHTML = "\n                        <span class=\"pr-3\">".concat(counter, ")</span>\n                        <span class=\"pr-2 pt-2\">+</span>\n                        <span>\n                            <div class=\"text-right\">").concat(numbers[_i - 1], "</div>\n                            <div class=\"text-right\">").concat(numbers[_i + 1], "</div>\n                            <hr style=\"margin:0\">\n                            <div class=\"text-right\">").concat(_solvedNum3, "</div>\n                        </span>\n                    ");
+          uravnFooter.append(_oneStep);
+          counter++;
+          numbers.splice(_i - 1, 3, _solvedNum3);
+          _i -= 2;
+        }
+      }
+
+      trueAnswer = numbers[0];
+      trueAnswer = Math.round(trueAnswer);
+      console.log(trueAnswer);
+    };
+
+    btnAnswer.addEventListener('click', function () {
+      var userAnswer = answer.value;
+
+      if (userAnswer == trueAnswer) {
+        mark.textContent = 'Все верно!';
+        uravnBody.appendChild(mark);
+        btnNext.style.display = '';
+        points++;
+        pointsWrap.textContent = points;
+      } else {
+        mark.textContent = 'Ошибка!';
+        uravnBody.appendChild(mark);
+        clearInterval(timerFunc);
+        pointsWrapRes.textContent = points;
+        secondsWrapRes.textContent = seconds;
+        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        btnRes.style.display = '';
+      }
+
+      btnAnswer.style.display = "none";
+      stepSol();
     });
-    soluton();
-  }
 
-  var soluton = function soluton() {
-    for (var i = 0; i < numbers.length; i++) {
-      if (numbers[i] == '*') {
-        var solvedNum = numbers[i - 1] * numbers[i + 1];
-        numbers.splice(i - 1, 3, solvedNum);
-        i -= 2;
-      } else if (numbers[i] == '/') {
-        var _solvedNum = numbers[i - 1] / numbers[i + 1];
-
-        numbers.splice(i - 1, 3, _solvedNum);
-        i -= 2;
-      }
+    function stepSol() {
+      uravnFooter.style.display = "";
+      uravnFooter.classList.add('d-flex');
     }
 
-    for (var _i = 0; _i < numbers.length; _i++) {
-      if (numbers[_i] == '-') {
-        var _solvedNum2 = numbers[_i - 1] - numbers[_i + 1];
-
-        numbers.splice(_i - 1, 3, _solvedNum2);
-        _i -= 2;
-      } else if (numbers[_i] == '+') {
-        var _solvedNum3 = numbers[_i - 1] + numbers[_i + 1];
-
-        numbers.splice(_i - 1, 3, _solvedNum3);
-        _i -= 2;
-      }
+    function getRandomBetween(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
     }
-
-    trueAnswer = numbers[0];
-    trueAnswer = Math.round(trueAnswer);
-    console.log(trueAnswer);
-  };
-
-  btnAnswer.addEventListener('click', function () {
-    var userAnswer = answer.value;
-
-    if (userAnswer == trueAnswer) {
-      mark.textContent = 'Все верно!';
-      uravnBody.appendChild(mark);
-      btnNext.style.display = '';
-      points++;
-      pointsWrap.textContent = points;
-    } else {
-      mark.textContent = 'Ошибка!';
-      uravnBody.appendChild(mark);
-      clearInterval(timerFunc);
-      pointsWrapRes.textContent = points;
-      secondsWrapRes.textContent = seconds;
-      effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
-      btnRes.style.display = '';
-    }
-
-    btnAnswer.style.display = "none";
-    stepSol();
-  });
-
-  function stepSol() {
-    uravnFooter.style.display = "";
-    uravnFooter.classList.add('d-flex');
-  }
-
-  function getRandomBetween(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (uravn);
