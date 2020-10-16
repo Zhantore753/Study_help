@@ -3185,6 +3185,84 @@ addToUnscopables('entries');
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.array.splice.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.splice.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var toAbsoluteIndex = __webpack_require__(/*! ../internals/to-absolute-index */ "./node_modules/core-js/internals/to-absolute-index.js");
+var toInteger = __webpack_require__(/*! ../internals/to-integer */ "./node_modules/core-js/internals/to-integer.js");
+var toLength = __webpack_require__(/*! ../internals/to-length */ "./node_modules/core-js/internals/to-length.js");
+var toObject = __webpack_require__(/*! ../internals/to-object */ "./node_modules/core-js/internals/to-object.js");
+var arraySpeciesCreate = __webpack_require__(/*! ../internals/array-species-create */ "./node_modules/core-js/internals/array-species-create.js");
+var createProperty = __webpack_require__(/*! ../internals/create-property */ "./node_modules/core-js/internals/create-property.js");
+var arrayMethodHasSpeciesSupport = __webpack_require__(/*! ../internals/array-method-has-species-support */ "./node_modules/core-js/internals/array-method-has-species-support.js");
+
+var max = Math.max;
+var min = Math.min;
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
+
+// `Array.prototype.splice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.splice
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('splice') }, {
+  splice: function splice(start, deleteCount /* , ...items */) {
+    var O = toObject(this);
+    var len = toLength(O.length);
+    var actualStart = toAbsoluteIndex(start, len);
+    var argumentsLength = arguments.length;
+    var insertCount, actualDeleteCount, A, k, from, to;
+    if (argumentsLength === 0) {
+      insertCount = actualDeleteCount = 0;
+    } else if (argumentsLength === 1) {
+      insertCount = 0;
+      actualDeleteCount = len - actualStart;
+    } else {
+      insertCount = argumentsLength - 2;
+      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
+    }
+    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
+      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
+    A = arraySpeciesCreate(O, actualDeleteCount);
+    for (k = 0; k < actualDeleteCount; k++) {
+      from = actualStart + k;
+      if (from in O) createProperty(A, k, O[from]);
+    }
+    A.length = actualDeleteCount;
+    if (insertCount < actualDeleteCount) {
+      for (k = actualStart; k < len - actualDeleteCount; k++) {
+        from = k + actualDeleteCount;
+        to = k + insertCount;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+    } else if (insertCount > actualDeleteCount) {
+      for (k = len - actualDeleteCount; k > actualStart; k--) {
+        from = k + actualDeleteCount - 1;
+        to = k + insertCount - 1;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+    }
+    for (k = 0; k < insertCount; k++) {
+      O[k + actualStart] = arguments[k + 2];
+    }
+    O.length = len - actualDeleteCount + insertCount;
+    return A;
+  }
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.function.name.js":
 /*!**********************************************************!*\
   !*** ./node_modules/core-js/modules/es.function.name.js ***!
@@ -4860,6 +4938,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_umnoj__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/umnoj */ "./src/js/modules/umnoj.js");
 /* harmony import */ var _modules_sum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/sum */ "./src/js/modules/sum.js");
 /* harmony import */ var _modules_delen__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/delen */ "./src/js/modules/delen.js");
+/* harmony import */ var _modules_uravn__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/uravn */ "./src/js/modules/uravn.js");
+
 
 
 
@@ -4886,6 +4966,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
   Object(_modules_delen__WEBPACK_IMPORTED_MODULE_8__["default"])();
+  Object(_modules_uravn__WEBPACK_IMPORTED_MODULE_9__["default"])();
 });
 
 /***/ }),
@@ -5214,9 +5295,7 @@ var delen = function delen() {
     function getRandomBetween(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (delen);
@@ -5707,6 +5786,228 @@ var umnoj = function umnoj() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (umnoj);
+
+/***/ }),
+
+/***/ "./src/js/modules/uravn.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/uravn.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.splice */ "./node_modules/core-js/modules/es.array.splice.js");
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+var uravn = function uravn() {
+  var btnStart = document.querySelector('#start-uravn'),
+      btnNext = document.querySelector('#next-uravn'),
+      btnRes = document.querySelector('#result-uravn'),
+      pointsWrap = document.querySelector('.uravn_points'),
+      secondsWrap = document.querySelector('.seconds'),
+      zadacha = document.querySelector('.uravn_zadacha'),
+      answer = document.querySelector('.uravn_answer'),
+      btnAnswer = document.querySelector('#uravn-otvet'),
+      uravnBody = document.querySelector('.uravn_body'),
+      uravnFooter = document.querySelector('.uravn_footer'),
+      effWrap = document.querySelector('[data-eff]'),
+      pointsWrapRes = document.querySelector('[data-points]'),
+      secondsWrapRes = document.querySelector('[data-sec]');
+  var numbers = [],
+      trueAnswer = 0,
+      points = 0,
+      seconds = 0,
+      amountNum = 0,
+      timerFunc;
+  pointsWrap.textContent = '';
+  secondsWrap.textContent = '';
+  var mark = document.createElement('h3');
+  mark.classList.add('text-center');
+  btnStart.addEventListener('click', function () {
+    btnAnswer.style.display = "";
+    createZad();
+    timerFunc = setInterval(function () {
+      seconds++;
+      secondsWrap.textContent = seconds;
+    }, 1000);
+    btnStart.style.display = 'none';
+  });
+  btnNext.addEventListener('click', function () {
+    btnAnswer.style.display = "";
+    uravnFooter.innerHTML = '';
+    answer.value = '';
+    mark.remove();
+    createZad();
+    btnNext.style.display = 'none';
+  });
+
+  function createZad() {
+    amountNum = getRandomBetween(3, 5);
+    numbers = [];
+    zadacha.textContent = '';
+
+    for (var i = 0; i < amountNum; i++) {
+      var znak = getRandomBetween(1, 4);
+
+      if (i != 0) {
+        if (znak == 1) {
+          numbers.push('+');
+        } else if (znak == 2) {
+          numbers.push('-');
+        } else if (znak == 3) {
+          numbers.push('*');
+        } else {
+          numbers.push('/');
+        }
+      }
+
+      var number = getRandomBetween(1, 9999);
+      numbers.push(number);
+      var oneStep = document.createElement('div');
+      oneStep.setAttribute('id', i);
+      oneStep.classList.add('d-flex');
+      uravnFooter.classList.remove('d-flex');
+      uravnFooter.style.display = "none"; //     if (i == 0) {
+      //         trueAnswer = number;
+      //     } else if (znak == 1) {
+      //         oneStep.innerHTML = `
+      //         <span class="pr-3">${i})</span>
+      //         <span class="pr-2 pt-2">+</span>
+      //         <span>
+      //             <div class="text-right">${trueAnswer}</div>
+      //             <div class="text-right">${number}</div>
+      //             <hr style="margin:0">
+      //             <div class="text-right">${trueAnswer + number}</div>
+      //         </span>
+      //         `;
+      //         uravnFooter.append(oneStep);
+      //         trueAnswer = trueAnswer + number;
+      //     } else if(znak == 2) {
+      //         oneStep.innerHTML = `
+      //         <span class="pr-3">${i})</span>
+      //         <span class="pr-2 pt-2">-</span>
+      //         <span>
+      //             <div class="text-right">${trueAnswer}</div>
+      //             <div class="text-right">${number}</div>
+      //             <hr style="margin:0">
+      //             <div class="text-right">${trueAnswer - number}</div>
+      //         </span>
+      //         `;
+      //         uravnFooter.append(oneStep);
+      //         trueAnswer = trueAnswer - number;
+      //     } else if(znak == 3){
+      //         oneStep.innerHTML = `
+      //         <span class="pr-3">${i})</span>
+      //         <span class="pr-2 pt-2">*</span>
+      //         <span>
+      //             <div class="text-right">${trueAnswer}</div>
+      //             <div class="text-right">${number}</div>
+      //             <hr style="margin:0">
+      //             <div class="text-right">${trueAnswer * number}</div>
+      //         </span>
+      //         `;
+      //         uravnFooter.append(oneStep);
+      //         trueAnswer = trueAnswer * number;
+      //     } else {
+      //         oneStep.innerHTML = `
+      //         <span class="pr-3">${i})</span>
+      //         <span class="pr-2 pt-2">/</span>
+      //         <span>
+      //             <div class="text-right">${trueAnswer}</div>
+      //             <div class="text-right">${number}</div>
+      //             <hr style="margin:0">
+      //             <div class="text-right">${trueAnswer / number}</div>
+      //         </span>
+      //         `;
+      //         uravnFooter.append(oneStep);
+      //         trueAnswer = trueAnswer / number;
+      //     }
+    }
+
+    console.log(numbers); // console.log(trueAnswer);
+
+    numbers.forEach(function (number) {
+      zadacha.textContent += "".concat(number, " ");
+    });
+    soluton();
+  }
+
+  var soluton = function soluton() {
+    for (var i = 0; i < numbers.length; i++) {
+      if (numbers[i] == '*') {
+        var solvedNum = numbers[i - 1] * numbers[i + 1];
+        numbers.splice(i - 1, 3, solvedNum);
+        i -= 2;
+      } else if (numbers[i] == '/') {
+        var _solvedNum = numbers[i - 1] / numbers[i + 1];
+
+        numbers.splice(i - 1, 3, _solvedNum);
+        i -= 2;
+      }
+    }
+
+    for (var _i = 0; _i < numbers.length; _i++) {
+      if (numbers[_i] == '-') {
+        var _solvedNum2 = numbers[_i - 1] - numbers[_i + 1];
+
+        numbers.splice(_i - 1, 3, _solvedNum2);
+        _i -= 2;
+      } else if (numbers[_i] == '+') {
+        var _solvedNum3 = numbers[_i - 1] + numbers[_i + 1];
+
+        numbers.splice(_i - 1, 3, _solvedNum3);
+        _i -= 2;
+      }
+    }
+
+    trueAnswer = numbers[0];
+    trueAnswer = Math.round(trueAnswer);
+    console.log(trueAnswer);
+  };
+
+  btnAnswer.addEventListener('click', function () {
+    var userAnswer = answer.value;
+
+    if (userAnswer == trueAnswer) {
+      mark.textContent = 'Все верно!';
+      uravnBody.appendChild(mark);
+      btnNext.style.display = '';
+      points++;
+      pointsWrap.textContent = points;
+    } else {
+      mark.textContent = 'Ошибка!';
+      uravnBody.appendChild(mark);
+      clearInterval(timerFunc);
+      pointsWrapRes.textContent = points;
+      secondsWrapRes.textContent = seconds;
+      effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+      btnRes.style.display = '';
+    }
+
+    btnAnswer.style.display = "none";
+    stepSol();
+  });
+
+  function stepSol() {
+    uravnFooter.style.display = "";
+    uravnFooter.classList.add('d-flex');
+  }
+
+  function getRandomBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (uravn);
 
 /***/ }),
 

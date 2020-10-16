@@ -113,9 +113,7 @@ const delen = ()=>{
         function getRandomBetween(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
-    } catch (e) {
-        console.log(e);
-    }
+    } catch (e) {}
 };
 
 export default delen;

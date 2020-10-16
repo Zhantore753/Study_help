@@ -7,6 +7,7 @@ import settings from './modules/settings';
 import umnoj from './modules/umnoj';
 import sum from './modules/sum';
 import delen from './modules/delen';
+import uravn from './modules/uravn';
 
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
@@ -25,4 +26,5 @@ window.addEventListener('DOMContentLoaded', () => {
     umnoj();
     sum();
     delen();
+    uravn();
 });
