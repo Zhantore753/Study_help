@@ -173,9 +173,12 @@ const uravn = ()=>{
                 mark.textContent = 'Ошибка!';
                 uravnBody.appendChild(mark);
                 clearInterval(timerFunc);
-                pointsWrapRes.textContent = points;
-                secondsWrapRes.textContent = seconds;
-                effWrap.textContent = `${(points / seconds).toFixed(5) * 100}%`;
+                // pointsWrapRes.textContent = points;
+                // secondsWrapRes.textContent = seconds;
+                pointsWrapRes.value = points;
+                secondsWrapRes.value = seconds;
+                // effWrap.textContent = `${(points / seconds).toFixed(5) * 100}%`;
+                effWrap.value = `${(points / seconds).toFixed(5) * 100}%`;
                 btnRes.style.display = '';
             }
             btnAnswer.style.display = "none";

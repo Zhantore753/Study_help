@@ -114,9 +114,9 @@ const sum = () => {
                 mark.textContent = 'Ошибка!';
                 sumBody.appendChild(mark);
                 clearInterval(timerFunc);
-                pointsWrapRes.textContent = points;
-                secondsWrapRes.textContent = seconds;
-                effWrap.textContent = `${(points / seconds).toFixed(5) * 100}%`;
+                pointsWrapRes.value = points;
+                secondsWrapRes.value = seconds;
+                effWrap.value = `${(points / seconds).toFixed(5) * 100}%`;
                 btnRes.style.display = '';
             }
             btnAnswer.style.display = "none";

@@ -4939,6 +4939,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/sum */ "./src/js/modules/sum.js");
 /* harmony import */ var _modules_delen__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/delen */ "./src/js/modules/delen.js");
 /* harmony import */ var _modules_uravn__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/uravn */ "./src/js/modules/uravn.js");
+/* harmony import */ var _modules_sendResult__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/sendResult */ "./src/js/modules/sendResult.js");
+
 
 
 
@@ -4969,6 +4971,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
   Object(_modules_delen__WEBPACK_IMPORTED_MODULE_8__["default"])();
   Object(_modules_uravn__WEBPACK_IMPORTED_MODULE_9__["default"])();
+  Object(_modules_sendResult__WEBPACK_IMPORTED_MODULE_10__["default"])();
 });
 
 /***/ }),
@@ -5279,9 +5282,9 @@ var delen = function delen() {
         mark.textContent = 'Ошибка!';
         delenBody.appendChild(mark);
         clearInterval(timerFunc);
-        pointsWrapRes.textContent = points;
-        secondsWrapRes.textContent = seconds;
-        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        pointsWrapRes.value = points;
+        secondsWrapRes.value = seconds;
+        effWrap.value = "".concat((points / seconds).toFixed(5) * 100, "%");
         btnRes.style.display = '';
       }
 
@@ -5474,6 +5477,67 @@ var reg = function reg() {
 
 /***/ }),
 
+/***/ "./src/js/modules/sendResult.js":
+/*!**************************************!*\
+  !*** ./src/js/modules/sendResult.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_object_from_entries__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.object.from-entries */ "./node_modules/core-js/modules/es.object.from-entries.js");
+/* harmony import */ var core_js_modules_es_object_from_entries__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_from_entries__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.promise.finally */ "./node_modules/core-js/modules/es.promise.finally.js");
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
+
+
+
+
+
+
+
+
+var sendResult = function sendResult() {
+  var forms = document.querySelectorAll('.result-form'),
+      name = document.querySelector('[data-name]');
+  name.value = localStorage.getItem('name');
+  forms.forEach(function (form) {
+    submitData(form);
+  });
+
+  function submitData(form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var formData = new FormData(form);
+      var json = JSON.stringify(Object.fromEntries(formData.entries()));
+      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/results', json).then(function (res) {
+        form.reset();
+      }).catch(function () {
+        console.log("error");
+      }).finally(function () {
+        form.reset();
+      });
+    });
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (sendResult);
+
+/***/ }),
+
 /***/ "./src/js/modules/settings.js":
 /*!************************************!*\
   !*** ./src/js/modules/settings.js ***!
@@ -5632,9 +5696,9 @@ var sum = function sum() {
         mark.textContent = 'Ошибка!';
         sumBody.appendChild(mark);
         clearInterval(timerFunc);
-        pointsWrapRes.textContent = points;
-        secondsWrapRes.textContent = seconds;
-        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        pointsWrapRes.value = points;
+        secondsWrapRes.value = seconds;
+        effWrap.value = "".concat((points / seconds).toFixed(5) * 100, "%");
         btnRes.style.display = '';
       }
 
@@ -5766,9 +5830,9 @@ var umnoj = function umnoj() {
         mark.textContent = 'Ошибка!';
         umnojBody.appendChild(mark);
         clearInterval(timerFunc);
-        pointsWrapRes.textContent = points;
-        secondsWrapRes.textContent = seconds;
-        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        pointsWrapRes.value = points;
+        secondsWrapRes.value = seconds;
+        effWrap.value = "".concat((points / seconds).toFixed(5) * 100, "%");
         btnRes.style.display = '';
       }
 
@@ -5961,10 +6025,13 @@ var uravn = function uravn() {
       } else {
         mark.textContent = 'Ошибка!';
         uravnBody.appendChild(mark);
-        clearInterval(timerFunc);
-        pointsWrapRes.textContent = points;
-        secondsWrapRes.textContent = seconds;
-        effWrap.textContent = "".concat((points / seconds).toFixed(5) * 100, "%");
+        clearInterval(timerFunc); // pointsWrapRes.textContent = points;
+        // secondsWrapRes.textContent = seconds;
+
+        pointsWrapRes.value = points;
+        secondsWrapRes.value = seconds; // effWrap.textContent = `${(points / seconds).toFixed(5) * 100}%`;
+
+        effWrap.value = "".concat((points / seconds).toFixed(5) * 100, "%");
         btnRes.style.display = '';
       }
 
