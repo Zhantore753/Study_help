@@ -4940,6 +4940,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_delen__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/delen */ "./src/js/modules/delen.js");
 /* harmony import */ var _modules_uravn__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/uravn */ "./src/js/modules/uravn.js");
 /* harmony import */ var _modules_sendResult__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/sendResult */ "./src/js/modules/sendResult.js");
+/* harmony import */ var _modules_tops__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/tops */ "./src/js/modules/tops.js");
+
 
 
 
@@ -4972,6 +4974,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_delen__WEBPACK_IMPORTED_MODULE_8__["default"])();
   Object(_modules_uravn__WEBPACK_IMPORTED_MODULE_9__["default"])();
   Object(_modules_sendResult__WEBPACK_IMPORTED_MODULE_10__["default"])();
+  Object(_modules_tops__WEBPACK_IMPORTED_MODULE_11__["default"])();
 });
 
 /***/ }),
@@ -5511,27 +5514,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var sendResult = function sendResult() {
-  var forms = document.querySelectorAll('.result-form'),
-      name = document.querySelector('[data-name]');
-  name.value = localStorage.getItem('name');
-  forms.forEach(function (form) {
-    submitData(form);
-  });
-
-  function submitData(form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var formData = new FormData(form);
-      var json = JSON.stringify(Object.fromEntries(formData.entries()));
-      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/results', json).then(function (res) {
-        form.reset();
-      }).catch(function () {
-        console.log("error");
-      }).finally(function () {
-        form.reset();
-      });
+  try {
+    var forms = document.querySelectorAll('.result-form'),
+        name = document.querySelector('[data-name]');
+    name.value = localStorage.getItem('name');
+    forms.forEach(function (form) {
+      submitData(form);
     });
-  }
+
+    function submitData(form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(form);
+        var json = JSON.stringify(Object.fromEntries(formData.entries()));
+        Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/results', json).then(function (res) {
+          form.reset();
+        }).catch(function () {
+          console.log("error");
+        }).finally(function () {
+          form.reset();
+        });
+      });
+    }
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (sendResult);
@@ -5718,6 +5723,61 @@ var sum = function sum() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (sum);
+
+/***/ }),
+
+/***/ "./src/js/modules/tops.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tops.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
+
+
+
+
+var tops = function tops() {
+  var table = document.querySelector('.table'),
+      btnId = document.querySelector('[data-col="id"]'),
+      btnName = document.querySelector('[data-col="name"]'),
+      btnPoints = document.querySelector('[data-col="points"]'),
+      btnTime = document.querySelector('[data-col="time"]'),
+      btnEff = document.querySelector('[data-col="eff"]'),
+      btnMode = document.querySelector('[data-col="mode"]'),
+      tbody = document.querySelector('.tbody');
+  Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/results').then(function (res) {
+    return createRows(res);
+  }).catch(function (error) {
+    return console.log(error);
+  });
+
+  function createRows(response) {
+    response.forEach(function (_ref) {
+      var mode = _ref.mode,
+          name = _ref.name,
+          points = _ref.points,
+          time = _ref.time,
+          eff = _ref.eff,
+          id = _ref.id;
+      var tr = document.createElement('tr');
+      tr.innerHTML = "\n            <th scope=\"row\">".concat(id, "</th>\n            <td>").concat(name, "</td>\n            <td>").concat(mode, "</td>\n            <td>").concat(points, "</td>\n            <td>").concat(time, "</td>\n            <td>").concat(eff, "</td>\n        ");
+      tbody.appendChild(tr);
+    });
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tops);
 
 /***/ }),
 

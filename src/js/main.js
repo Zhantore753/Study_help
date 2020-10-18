@@ -9,6 +9,7 @@ import sum from './modules/sum';
 import delen from './modules/delen';
 import uravn from './modules/uravn';
 import sendResult from './modules/sendResult';
+import tops from './modules/tops';
 
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
@@ -31,4 +32,5 @@ window.addEventListener('DOMContentLoaded', () => {
     delen();
     uravn();
     sendResult();
+    tops();
 });

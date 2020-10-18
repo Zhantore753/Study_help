@@ -3,6 +3,7 @@ import {
 } from '../services/requests';
 
 const sendResult = () => {
+    try{
     const forms = document.querySelectorAll('.result-form'),
         name = document.querySelector('[data-name]');
 
@@ -29,5 +30,6 @@ const sendResult = () => {
                 });
         });
     }
+    }catch(e){}
 };
 export default sendResult;

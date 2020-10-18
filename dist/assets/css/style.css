@@ -1,53 +1,7 @@
-.container1 {
-    text-align: right;
-    padding: 10px 10px;
-    margin-top: 300px;
-    margin-left: 30%;
-    max-width: 500px;
-    background-color: #fff;
+.col-title{
+    transition: 0.3s;
 }
 
-.container__inner1 {
-    display: flex;
-    justify-content: space-between;
-}
-
-.task {
-    border-bottom: 1px solid #000;
-}
-
-.number {
-    margin: 0;
-}
-
-.modal {
-    background-color: #fff;
-}
-
-.off {
-    display: none;
-}
-
-.on {
-    display: contents;
-}
-
-.on-btn {
-    display: inline-block;
-}
-
-.active {
-    background-color: rgb(255, 197, 7);
-}
-
-.second-active {
-    background-color: rgb(0, 255, 13);
-}
-
-.third-active {
-    background-color: rgb(89, 0, 255);
-}
-
-.solution {
-    border-bottom: 1px solid #000;
+.col-title:hover{
+ background-color: #17a2b8;
 }
