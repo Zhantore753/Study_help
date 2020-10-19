@@ -4998,6 +4998,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_uravn__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/uravn */ "./src/js/modules/uravn.js");
 /* harmony import */ var _modules_sendResult__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/sendResult */ "./src/js/modules/sendResult.js");
 /* harmony import */ var _modules_tops__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/tops */ "./src/js/modules/tops.js");
+/* harmony import */ var _modules_stats__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/stats */ "./src/js/modules/stats.js");
+
 
 
 
@@ -5025,6 +5027,8 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-umnoj', '.result-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-delen', '.result-modal');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('#result-uravn', '.result-modal');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('.stats', '.stats-modal');
+  Object(_modules_stats__WEBPACK_IMPORTED_MODULE_12__["default"])();
   Object(_modules_settings__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_modules_umnoj__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_sum__WEBPACK_IMPORTED_MODULE_7__["default"])();
@@ -5639,6 +5643,78 @@ var settings = function settings() {
 
 /***/ }),
 
+/***/ "./src/js/modules/stats.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/stats.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
+
+
+
+
+var tops = function tops() {
+  try {
+    var tbody = document.querySelector('.tbody-stats'),
+        originalAll = [];
+    var all = [];
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/results').then(function (res) {
+      return createRows(res);
+    }).catch(function (error) {
+      return console.log(error);
+    });
+
+    function createRows(response) {
+      response.forEach(function (_ref) {
+        var mode = _ref.mode,
+            name = _ref.name,
+            points = _ref.points,
+            time = _ref.time,
+            eff = _ref.eff,
+            id = _ref.id;
+
+        if (name == localStorage.getItem('name')) {
+          var object = {
+            id: id,
+            name: name,
+            mode: mode,
+            points: points,
+            time: time,
+            eff: eff
+          };
+          all.push(object);
+          originalAll.push(object);
+        }
+      });
+      tableUpdate(all);
+    }
+
+    function tableUpdate(array) {
+      tbody.innerHTML = '';
+      array.forEach(function (obj) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = "\n                <th scope=\"row\">".concat(obj.id, "</th>\n                <td>").concat(obj.name, "</td>\n                <td>").concat(obj.mode, "</td>\n                <td>").concat(obj.points, "</td>\n                <td>").concat(obj.time, "</td>\n                <td>").concat(obj.eff, "</td>\n            ");
+        tbody.appendChild(tr);
+      });
+    }
+  } catch (e) {}
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tops);
+
+/***/ }),
+
 /***/ "./src/js/modules/sum.js":
 /*!*******************************!*\
   !*** ./src/js/modules/sum.js ***!
@@ -5808,168 +5884,169 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var tops = function tops() {
-  var allBtn = document.querySelectorAll('.col-title'),
-      btnId = document.querySelector('[data-col="id"]'),
-      btnName = document.querySelector('[data-col="name"]'),
-      btnPoints = document.querySelector('[data-col="points"]'),
-      btnTime = document.querySelector('[data-col="time"]'),
-      btnEff = document.querySelector('[data-col="eff"]'),
-      btnMode = document.querySelector('[data-col="mode"]'),
-      tbody = document.querySelector('.tbody'),
-      originalAll = [];
-  var all = [];
-  Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/results').then(function (res) {
-    return createRows(res);
-  }).catch(function (error) {
-    return console.log(error);
-  });
-
-  function createRows(response) {
-    response.forEach(function (_ref) {
-      var mode = _ref.mode,
-          name = _ref.name,
-          points = _ref.points,
-          time = _ref.time,
-          eff = _ref.eff,
-          id = _ref.id;
-      var object = {
-        id: id,
-        name: name,
-        mode: mode,
-        points: points,
-        time: time,
-        eff: eff
-      };
-      all.push(object);
-      originalAll.push(object);
+  try {
+    var allBtn = document.querySelectorAll('.col-title'),
+        btnId = document.querySelector('[data-col="id"]'),
+        btnName = document.querySelector('[data-col="name"]'),
+        btnPoints = document.querySelector('[data-col="points"]'),
+        btnTime = document.querySelector('[data-col="time"]'),
+        btnEff = document.querySelector('[data-col="eff"]'),
+        btnMode = document.querySelector('[data-col="mode"]'),
+        tbody = document.querySelector('.tbody'),
+        originalAll = [];
+    var all = [];
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_4__["getResource"])('http://localhost:3000/results').then(function (res) {
+      return createRows(res);
+    }).catch(function (error) {
+      return console.log(error);
     });
-    tableUpdate(all);
-  }
 
-  console.log(all);
-  btnName.addEventListener('click', function () {
-    all = originalAll;
-    all.sort(function (a, b) {
-      if (a.name > b.name) {
-        return 1;
-      }
+    function createRows(response) {
+      response.forEach(function (_ref) {
+        var mode = _ref.mode,
+            name = _ref.name,
+            points = _ref.points,
+            time = _ref.time,
+            eff = _ref.eff,
+            id = _ref.id;
+        var object = {
+          id: id,
+          name: name,
+          mode: mode,
+          points: points,
+          time: time,
+          eff: eff
+        };
+        all.push(object);
+        originalAll.push(object);
+      });
+      tableUpdate(all);
+    }
 
-      if (a.name < b.name) {
-        return -1;
-      }
+    btnName.addEventListener('click', function () {
+      all = originalAll;
+      all.sort(function (a, b) {
+        if (a.name > b.name) {
+          return 1;
+        }
 
-      return 0;
+        if (a.name < b.name) {
+          return -1;
+        }
+
+        return 0;
+      });
+      allBtn.forEach(function (btn) {
+        btn.classList.remove('bg-info');
+      });
+      btnName.classList.add('bg-info');
+      tableUpdate(all);
     });
-    allBtn.forEach(function (btn) {
-      btn.classList.remove('bg-info');
-    });
-    btnName.classList.add('bg-info');
-    tableUpdate(all);
-  });
-  btnId.addEventListener('click', function () {
-    all = originalAll;
-    all.sort(function (a, b) {
-      if (+a.id > +b.id) {
-        return 1;
-      }
+    btnId.addEventListener('click', function () {
+      all = originalAll;
+      all.sort(function (a, b) {
+        if (+a.id > +b.id) {
+          return 1;
+        }
 
-      if (+a.id < +b.id) {
-        return -1;
-      }
+        if (+a.id < +b.id) {
+          return -1;
+        }
 
-      return 0;
+        return 0;
+      });
+      allBtn.forEach(function (btn) {
+        btn.classList.remove('bg-info');
+      });
+      btnId.classList.add('bg-info');
+      tableUpdate(all);
     });
-    allBtn.forEach(function (btn) {
-      btn.classList.remove('bg-info');
-    });
-    btnId.classList.add('bg-info');
-    tableUpdate(all);
-  });
-  btnPoints.addEventListener('click', function () {
-    all = originalAll;
-    all.sort(function (a, b) {
-      if (+a.points > +b.points) {
-        return -1;
-      }
+    btnPoints.addEventListener('click', function () {
+      all = originalAll;
+      all.sort(function (a, b) {
+        if (+a.points > +b.points) {
+          return -1;
+        }
 
-      if (+a.points < +b.points) {
-        return 1;
-      }
+        if (+a.points < +b.points) {
+          return 1;
+        }
 
-      return 0;
+        return 0;
+      });
+      allBtn.forEach(function (btn) {
+        btn.classList.remove('bg-info');
+      });
+      btnPoints.classList.add('bg-info');
+      tableUpdate(all);
     });
-    allBtn.forEach(function (btn) {
-      btn.classList.remove('bg-info');
-    });
-    btnPoints.classList.add('bg-info');
-    tableUpdate(all);
-  });
-  btnTime.addEventListener('click', function () {
-    all = originalAll;
-    all.sort(function (a, b) {
-      if (+a.time > +b.time) {
-        return 1;
-      }
+    btnTime.addEventListener('click', function () {
+      all = originalAll;
+      all.sort(function (a, b) {
+        if (+a.time > +b.time) {
+          return 1;
+        }
 
-      if (+a.time < +b.time) {
-        return -1;
-      }
+        if (+a.time < +b.time) {
+          return -1;
+        }
 
-      return 0;
+        return 0;
+      });
+      allBtn.forEach(function (btn) {
+        btn.classList.remove('bg-info');
+      });
+      btnTime.classList.add('bg-info');
+      tableUpdate(all);
     });
-    allBtn.forEach(function (btn) {
-      btn.classList.remove('bg-info');
-    });
-    btnTime.classList.add('bg-info');
-    tableUpdate(all);
-  });
-  btnMode.addEventListener('click', function () {
-    all = originalAll;
-    all.sort(function (a, b) {
-      if (a.mode > b.mode) {
-        return -1;
-      }
+    btnMode.addEventListener('click', function () {
+      all = originalAll;
+      all.sort(function (a, b) {
+        if (a.mode > b.mode) {
+          return -1;
+        }
 
-      if (a.mode < b.mode) {
-        return 1;
-      }
+        if (a.mode < b.mode) {
+          return 1;
+        }
 
-      return 0;
+        return 0;
+      });
+      allBtn.forEach(function (btn) {
+        btn.classList.remove('bg-info');
+      });
+      btnMode.classList.add('bg-info');
+      tableUpdate(all);
     });
-    allBtn.forEach(function (btn) {
-      btn.classList.remove('bg-info');
-    });
-    btnMode.classList.add('bg-info');
-    tableUpdate(all);
-  });
-  btnEff.addEventListener('click', function () {
-    all = originalAll;
-    all.sort(function (a, b) {
-      if (+a.eff.slice(0, -1) > +b.eff.slice(0, -1)) {
-        return -1;
-      }
+    btnEff.addEventListener('click', function () {
+      all = originalAll;
+      all.sort(function (a, b) {
+        if (+a.eff.slice(0, -1) > +b.eff.slice(0, -1)) {
+          return -1;
+        }
 
-      if (+a.eff.slice(0, -1) < +b.eff.slice(0, -1)) {
-        return 1;
-      }
+        if (+a.eff.slice(0, -1) < +b.eff.slice(0, -1)) {
+          return 1;
+        }
 
-      return 0;
+        return 0;
+      });
+      allBtn.forEach(function (btn) {
+        btn.classList.remove('bg-info');
+      });
+      btnEff.classList.add('bg-info');
+      tableUpdate(all);
     });
-    allBtn.forEach(function (btn) {
-      btn.classList.remove('bg-info');
-    });
-    btnEff.classList.add('bg-info');
-    tableUpdate(all);
-  });
 
-  function tableUpdate(array) {
-    tbody.innerHTML = '';
-    array.forEach(function (obj) {
-      var tr = document.createElement('tr');
-      tr.innerHTML = "\n                <th scope=\"row\">".concat(obj.id, "</th>\n                <td>").concat(obj.name, "</td>\n                <td>").concat(obj.mode, "</td>\n                <td>").concat(obj.points, "</td>\n                <td>").concat(obj.time, "</td>\n                <td>").concat(obj.eff, "</td>\n            ");
-      tbody.appendChild(tr);
-    });
-  }
+    function tableUpdate(array) {
+      tbody.innerHTML = '';
+      array.forEach(function (obj) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = "\n                <th scope=\"row\">".concat(obj.id, "</th>\n                <td>").concat(obj.name, "</td>\n                <td>").concat(obj.mode, "</td>\n                <td>").concat(obj.points, "</td>\n                <td>").concat(obj.time, "</td>\n                <td>").concat(obj.eff, "</td>\n            ");
+        tbody.appendChild(tr);
+      });
+    }
+  } catch (e) {}
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (tops);

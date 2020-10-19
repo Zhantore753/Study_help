@@ -10,6 +10,7 @@ import delen from './modules/delen';
 import uravn from './modules/uravn';
 import sendResult from './modules/sendResult';
 import tops from './modules/tops';
+import stats from './modules/stats';
 
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
@@ -26,6 +27,8 @@ window.addEventListener('DOMContentLoaded', () => {
     modal('#result-umnoj', '.result-modal');
     modal('#result-delen', '.result-modal');
     modal('#result-uravn', '.result-modal');
+    modal('.stats', '.stats-modal');
+    stats();
     settings();
     umnoj();
     sum();

@@ -3,6 +3,7 @@ import {
 } from '../services/requests';
 
 const tops = () =>{
+    try{
     const allBtn = document.querySelectorAll('.col-title'),
         btnId = document.querySelector('[data-col="id"]'),
         btnName = document.querySelector('[data-col="name"]'),
@@ -42,7 +43,6 @@ const tops = () =>{
         });
         tableUpdate(all);
     }
-    console.log(all);
 
     btnName.addEventListener('click', ()=>{
         all = originalAll;
@@ -168,6 +168,7 @@ const tops = () =>{
             tbody.appendChild(tr);
         });
     }
+}catch(e){}
 };
 
 export default tops;
