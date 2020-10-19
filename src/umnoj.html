@@ -12,40 +12,40 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 nav sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Study-helper</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+          <a class="navbar-brand" href="index.html">Study-helper</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle dorpDownTrigger" href="#" id="navbarDropdown">
+                  Режимы
+                </a>
+                <div class="dropdown-menu dropList" aria-labelledby="navbarDropdown"></div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="tops.html"> Топы </a>
+              </li>
+            </ul>
+            <li class="nick btn-drop nav-item dropdown btn btn-success" style="display: none">
+              <a class="nav-link dropdown-toggle dorpDownTrigger nick-inner" href="#" id="navbarDropdown">
+              </a>
+              <div class="dropdown-menu dropList1" aria-labelledby="navbarDropdown">
+                <a href="#" class="dropdown-item settings">Информация</a>
+                <a href="#" class="dropdown-item stats">Статистика</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item exit">Выйти</a>
+              </div>
+            </li>
+            <button class="btn btn-outline-success my-2 my-sm-0 auth-btn">
+              Вход/Регистрация
             </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dorpDownTrigger" href="#" id="navbarDropdown">
-                            Режимы
-                        </a>
-                        <div class="dropdown-menu dropList" aria-labelledby="navbarDropdown"></div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> Топы </a>
-                    </li>
-                </ul>
-                <li class="nick btn-drop nav-item dropdown btn btn-success" style="display: none">
-                    <a class="nav-link dropdown-toggle dorpDownTrigger nick-inner" href="#" id="navbarDropdown">
-                    </a>
-                    <div class="dropdown-menu dropList1" aria-labelledby="navbarDropdown">
-                        <a href="#" class="dropdown-item settings">Информация</a>
-                        <a href="#" class="dropdown-item">Статистика</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item exit">Выйти</a>
-                    </div>
-                </li>
-                <button class="btn btn-outline-success my-2 my-sm-0 auth-btn">
-                    Вход/Регистрация
-                </button>
-            </div>
+          </div>
         </div>
-    </nav>
+      </nav>
     <section class="umnoj">
         <div class="container">
             <div class="umnoj_inner">
@@ -209,6 +209,41 @@
             </div>
         </div>
 
+        <div class="modal stats-modal" role="dialog">
+            <div class="modal-dialog" style="max-width: 700px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Последние игры</h5>
+                  <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body settings-inner">
+                  <div class="container">
+                    <table class="table table-dark stats-table">
+                      <thead>
+                        <tr>
+                          <th style="cursor:pointer;" class="bg-info col-title"scope="col">#</th>
+                          <th style="cursor:pointer;" class="col-title" scope="col">Имя</th>
+                          <th style="cursor:pointer;" class="col-title" scope="col">Режим</th>
+                          <th style="cursor:pointer;" class="col-title" scope="col">Очки</th>
+                          <th style="cursor:pointer;" class="col-title" scope="col">Время</th>
+                          <th style="cursor:pointer;" class="col-title" scope="col">EFF</th>
+                        </tr>
+                      </thead>
+                      <tbody class="tbody-stats">
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         <div class="modal settings-modal" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -219,11 +254,11 @@
                         </button>
                     </div>
                     <div class="modal-body settings-inner">
-                        <p>Имя: <input class="setting-name" type="text"></p>
-                        <p>Логин: <input class="setting-login" type="text"></p>
+                        <p>Имя: <input class="setting-name" type="text" readonly></p>
+                        <p>Логин: <input class="setting-login" type="text" readonly></p>
                         <p class="setting-id"></p>
                         <div class="d-flex">
-                            <p class="mr-1">Пароль: <input class="setting-pass" type="password"></p>
+                            <p class="mr-1">Пароль: <input class="setting-pass" type="password" readonly></p>
                             <input class="mt-2 check-show" type="checkbox">
                             <label>Показать пароль</label>
                         </div>
